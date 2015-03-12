@@ -1,0 +1,8 @@
+#create a ignore file
+*.cmd
+*.o
+*.a
+!lib.a
+/TODO
+build/
+doc/*.txt
