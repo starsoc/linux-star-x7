@@ -1,0 +1,59 @@
+/ {
+	fpga_axi: fpga-axi@0 {
+		compatible = "simple-bus";
+		#address-cells = <0x1>;
+		#size-cells = <0x1>;
+		ranges;
+			
+		axi_vdma_0: axivdma@43000000 {
+			#address-cells = <1>;
+			#size-cells = <1>;
+			#dma-cells = <1>;
+			compatible = "xlnx,axi-vdma-1.00.a";
+			ranges = < 0x43000000 0x43000000 0x10000 >;
+			reg = < 0x43000000 0x10000 >;
+			xlnx,flush-fsync = <0x1>;
+			xlnx,include-sg = <0x0>;
+			xlnx,num-fstores = <0x3>;
+			dma-channel@43000000 {
+				compatible = "xlnx,axi-vdma-mm2s-channel";
+				interrupt-parent = <&intc>;
+				interrupts = < 0 59 4 >;
+				xlnx,datawidth = <0x40>;
+				xlnx,device-id = <0x0>;
+				xlnx,genlock-mode = <0x0>;
+				xlnx,include-dre = <0x0>;
+			};
+		};
+		
+		axi_iic_hdmi: i2c@41600000 {
+			compatible = "xlnx,axi-iic-1.02.a", "xlnx,xps-iic-2.00.a";
+			interrupt-parent = <&intc>;
+			interrupts = < 0 56 4 >;
+			reg = < 0x41600000 0x10000 >;
+			xlnx,family = "zynq";
+			xlnx,gpo-width = <0x1>;
+			xlnx,iic-freq = <0x186a0>;
+			xlnx,instance = "axi_iic_hdmi";
+			xlnx,scl-inertial-delay = <0x0>;
+			xlnx,sda-inertial-delay = <0x0>;
+			xlnx,sda-level = <0x1>;
+			xlnx,ten-bit-adr = <0x0>;
+		};
+		
+		axi_hdmi_tx_16b_0: axi-hdmi-tx-16b@70e00000 {
+			compatible = "adi,cf-adv7x11-core-1.00.a";
+			reg = < 0x70e00000 0x10000 0x79000000 0x10000 >;
+			slave_adapter = <&axi_iic_hdmi>;
+			dma-request = <&axi_vdma_0 0x0>;
+		};
+		
+		/*		
+		hdmi_clock: axi-clkgen@79000000 {
+			compatible = "adi,axi-clkgen-2.00.a";
+			reg = <0x79000000 0x10000>;
+			#clock-cells = <0>;
+			clocks = <&clkc 16>; 
+		};*/
+	}; 
+};
