@@ -1,1 +1,1 @@
-deps_initramfs := /home/alex/share/star/linux-star-zynq7000/scripts/gen_initramfs_list.sh \
+deps_initramfs := /home/alex/share/github/linux-star-x7/scripts/gen_initramfs_list.sh \
