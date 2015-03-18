@@ -73,7 +73,8 @@ static struct xusbps_otg *the_transceiver;
 void xusbps_update_transceiver(void)
 {
 	struct xusbps_otg *xotg = the_transceiver;
-
+    printk(KERN_INFO"%s:%d\r\n", __func__, __LINE__);
+    
 	dev_dbg(xotg->dev, "transceiver is updated\n");
 
 	if (!xotg->qwork)
