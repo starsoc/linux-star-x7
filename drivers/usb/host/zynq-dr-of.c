@@ -155,7 +155,9 @@ static int zynq_dr_of_probe(struct platform_device *ofdev)
 	struct resource *res;
 	int i, phy_init;
 	int ret;
-
+    
+    printk(KERN_INFO"%s:%d\r\n", __func__, __LINE__);
+    
 	pdata = &data;
 	memset(pdata, 0, sizeof(data));
 

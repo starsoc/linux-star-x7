@@ -112,6 +112,8 @@ static int usb_hcd_zynq_probe(const struct hc_driver *driver,
 	int retval;
 
 	pr_debug("initializing ZYNQ-SOC USB Controller\n");
+    
+    printk(KERN_INFO"%s:%d\r\n", __func__, __LINE__);
 
 	/* Need platform data for setup */
 	pdata = (struct zynq_usb2_platform_data *)pdev->dev.platform_data;
@@ -138,7 +140,7 @@ static int usb_hcd_zynq_probe(const struct hc_driver *driver,
 		retval = -ENOMEM;
 		goto err1;
 	}
-
+    
 	irq = pdata->irq;
 	hcd->regs = pdata->regs;
 
