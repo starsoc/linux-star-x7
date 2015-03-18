@@ -1933,13 +1933,15 @@ static int xusbps_otg_probe(struct platform_device *pdev)
 		return -ENODEV;
 
 	dev_dbg(&pdev->dev, "\notg controller is detected.\n");
-
+    
+    printk(KERN_INFO"%s:%d\r\n", __func__, __LINE__);
+    
 	xotg = kzalloc(sizeof *xotg, GFP_KERNEL);
 	if (xotg == NULL)
 		return -ENOMEM;
 
 	the_transceiver = xotg;
-
+    
 	xotg->otg.otg = kzalloc(sizeof(struct usb_otg), GFP_KERNEL);
 	if (!xotg->otg.otg) {
 		kfree(xotg);
@@ -1952,7 +1954,7 @@ static int xusbps_otg_probe(struct platform_device *pdev)
 		retval = -ENODEV;
 		goto err;
 	}
-
+    
 	xotg->qwork = create_singlethread_workqueue(qname);
 	if (!xotg->qwork) {
 		dev_dbg(&pdev->dev, "cannot create workqueue %s\n", qname);
@@ -1960,7 +1962,9 @@ static int xusbps_otg_probe(struct platform_device *pdev)
 		goto err;
 	}
 	INIT_WORK(&xotg->work, xusbps_otg_work);
-
+    
+    printk(KERN_INFO"%s:%d, create_singlethread_workqueue\r\n", __func__, __LINE__);
+    
 	/* OTG common part */
 	xotg->dev = &pdev->dev;
 	xotg->otg.dev = xotg->dev;
@@ -2009,7 +2013,7 @@ static int xusbps_otg_probe(struct platform_device *pdev)
 	val32 = OTGSC_DPIE | OTGSC_BSEIE | OTGSC_BSVIE |
 		OTGSC_ASVIE | OTGSC_AVVIE | OTGSC_IDIE | OTGSC_IDPU;
 	writel(val32, xotg->base + CI_OTGSC);
-
+    
 	retval = device_create_file(&pdev->dev, &dev_attr_registers);
 	if (retval < 0) {
 		dev_dbg(xotg->dev,
