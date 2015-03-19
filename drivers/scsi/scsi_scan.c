@@ -569,6 +569,7 @@ static int scsi_probe_lun(struct scsi_device *sdev, unsigned char *inq_result,
 	int response_len = 0;
 	int pass, count, result;
 	struct scsi_sense_hdr sshdr;
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	*bflags = 0;
 
@@ -758,6 +759,8 @@ static int scsi_add_lun(struct scsi_device *sdev, unsigned char *inq_result,
 		int *bflags, int async)
 {
 	int ret;
+    
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	/*
 	 * XXX do not save the inquiry, since it can change underneath us,
@@ -1026,6 +1029,8 @@ static int scsi_probe_and_add_lun(struct scsi_target *starget,
 	unsigned char *result;
 	int bflags, res = SCSI_SCAN_NO_RESPONSE, result_len = 256;
 	struct Scsi_Host *shost = dev_to_shost(starget->dev.parent);
+    
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	/*
 	 * The rescan flag is used as an optimization, the first scan of a
@@ -1177,6 +1182,8 @@ static void scsi_sequential_lun_scan(struct scsi_target *starget,
 
 	SCSI_LOG_SCAN_BUS(3, starget_printk(KERN_INFO, starget,
 		"scsi scan: Sequential scan\n"));
+    
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	max_dev_lun = min(max_scsi_luns, shost->max_lun);
 	/*
@@ -1341,6 +1348,8 @@ static int scsi_report_lun_scan(struct scsi_target *starget, int bflags,
 	struct scsi_device *sdev;
 	struct Scsi_Host *shost = dev_to_shost(&starget->dev);
 	int ret = 0;
+    
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	/*
 	 * Only support SCSI-3 and up devices if BLIST_NOREPORTLUN is not set.
@@ -1583,6 +1592,8 @@ static void __scsi_scan_target(struct device *parent, unsigned int channel,
 	int bflags = 0;
 	int res;
 	struct scsi_target *starget;
+    
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	if (shost->this_id == id)
 		/*

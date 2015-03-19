@@ -910,7 +910,9 @@ int usb_stor_probe1(struct us_data **pus,
 	struct Scsi_Host *host;
 	struct us_data *us;
 	int result;
-
+    
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
+    
 	dev_info(&intf->dev, "USB Mass Storage device detected\n");
 
 	/*
@@ -1044,13 +1046,15 @@ static int storage_probe(struct usb_interface *intf,
 	struct us_data *us;
 	int result;
 	int size;
+    
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	/* If uas is enabled and this device can do uas then ignore it. */
 #if IS_ENABLED(CONFIG_USB_UAS)
 	if (uas_use_uas_driver(intf, id))
 		return -ENXIO;
 #endif
-
+    
 	/*
 	 * If the device isn't standard (is handled by a subdriver
 	 * module) then don't accept it.

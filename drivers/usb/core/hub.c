@@ -1270,6 +1270,7 @@ static void hub_quiesce(struct usb_hub *hub, enum hub_quiescing_type type)
 {
 	struct usb_device *hdev = hub->hdev;
 	int i;
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	cancel_delayed_work_sync(&hub->init_work);
 
@@ -2093,6 +2094,7 @@ static void hub_disconnect_children(struct usb_device *udev)
 {
 	struct usb_hub *hub = usb_hub_to_struct_hub(udev);
 	int i;
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	/* Free up all the children before we remove this device */
 	for (i = 0; i < udev->maxchild; i++) {
@@ -2123,6 +2125,8 @@ void usb_disconnect(struct usb_device **pdev)
 	struct usb_device *udev = *pdev;
 	struct usb_hub *hub = NULL;
 	int port1 = 1;
+    
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	/* mark the device as inactive, so any further urb submissions for
 	 * this device (and any of its children) will fail immediately.
@@ -3213,6 +3217,8 @@ static int finish_port_resume(struct usb_device *udev)
 {
 	int	status = 0;
 	u16	devstatus = 0;
+    
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	/* caller owns the udev device lock */
 	dev_dbg(&udev->dev, "%s\n",
@@ -4245,6 +4251,8 @@ hub_port_init (struct usb_hub *hub, struct usb_device *udev, int port1,
 	enum usb_device_speed	oldspeed = udev->speed;
 	const char		*speed;
 	int			devnum = udev->devnum;
+    
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	/* root hub ports have a slightly longer reset period
 	 * (from USB 2.0 spec, section 7.1.7.5)
@@ -4254,7 +4262,7 @@ hub_port_init (struct usb_hub *hub, struct usb_device *udev, int port1,
 		if (port1 == hdev->bus->otg_port)
 			hdev->bus->b_hnp_enable = 0;
 	}
-
+    
 	/* Some low speed devices have problems with the quick delay, so */
 	/*  be a bit pessimistic with those devices. RHbug #23670 */
 	if (oldspeed == USB_SPEED_LOW)
@@ -4314,7 +4322,7 @@ hub_port_init (struct usb_hub *hub, struct usb_device *udev, int port1,
 				"%s %s USB device number %d using %s\n",
 				(udev->config) ? "reset" : "new", speed,
 				devnum, udev->bus->controller->driver->name);
-
+    
 	/* Set up TT records, if needed  */
 	if (hdev->tt) {
 		udev->tt = hdev->tt;
@@ -4623,6 +4631,7 @@ static void hub_port_connect(struct usb_hub *hub, int port1, u16 portstatus,
 	struct usb_port *port_dev = hub->ports[port1 - 1];
 	struct usb_device *udev = port_dev->child;
 	static int unreliable_port = -1;
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	/* Disconnect any existing devices under this port */
 	if (udev) {
@@ -5365,6 +5374,8 @@ static int usb_reset_and_verify_device(struct usb_device *udev)
 	struct usb_host_bos		*bos;
 	int				i, j, ret = 0;
 	int				port1 = udev->portnum;
+    
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	if (udev->state == USB_STATE_NOTATTACHED ||
 			udev->state == USB_STATE_SUSPENDED) {
