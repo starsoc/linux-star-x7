@@ -4163,7 +4163,10 @@ static int hub_set_address(struct usb_device *udev, int devnum)
 {
 	int retval;
 	struct usb_hcd *hcd = bus_to_hcd(udev->bus);
-
+    
+    printk(KERN_INFO"######%s:%d, addr device:%d\r\n", 
+        __func__, __LINE__, (u32)(hcd->driver->address_device));
+    
 	/*
 	 * The host controller will choose the device address,
 	 * instead of the core having chosen it earlier
@@ -4186,6 +4189,7 @@ static int hub_set_address(struct usb_device *udev, int devnum)
 		usb_set_device_state(udev, USB_STATE_ADDRESS);
 		usb_ep0_reinit(udev);
 	}
+    printk(KERN_INFO"######%s:%d, retval:%d\r\n", __func__, __LINE__, retval);
 	return retval;
 }
 
@@ -4252,7 +4256,7 @@ hub_port_init (struct usb_hub *hub, struct usb_device *udev, int port1,
 	const char		*speed;
 	int			devnum = udev->devnum;
     
-    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
+    printk(KERN_INFO"######%s:%d, speed:%d\r\n", __func__, __LINE__, udev->speed);
 
 	/* root hub ports have a slightly longer reset period
 	 * (from USB 2.0 spec, section 7.1.7.5)
@@ -4318,8 +4322,7 @@ hub_port_init (struct usb_hub *hub, struct usb_device *udev, int port1,
 		speed = usb_speed_string(udev->speed);
 
 	if (udev->speed != USB_SPEED_SUPER)
-		dev_info(&udev->dev,
-				"%s %s USB device number %d using %s\n",
+		printk(KERN_INFO,"######%s %s USB device number %d using %s\n",
 				(udev->config) ? "reset" : "new", speed,
 				devnum, udev->bus->controller->driver->name);
     
