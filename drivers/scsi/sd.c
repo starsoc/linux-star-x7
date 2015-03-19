@@ -2752,6 +2752,8 @@ static int sd_revalidate_disk(struct gendisk *disk)
 	struct scsi_device *sdp = sdkp->device;
 	unsigned char *buffer;
 	unsigned int max_xfer;
+    
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	SCSI_LOG_HLQUEUE(3, sd_printk(KERN_INFO, sdkp,
 				      "sd_revalidate_disk\n"));
@@ -2892,7 +2894,7 @@ static void sd_probe_async(void *data, async_cookie_t cookie)
 	gd = sdkp->disk;
 	index = sdkp->index;
 	dev = &sdp->sdev_gendev;
-
+    
 	gd->major = sd_major((index & 0xf0) >> 4);
 	gd->first_minor = ((index & 0xf) << 4) | (index & 0xfff00);
 	gd->minors = SD_MINORS;
@@ -2900,7 +2902,9 @@ static void sd_probe_async(void *data, async_cookie_t cookie)
 	gd->fops = &sd_fops;
 	gd->private_data = &sdkp->driver;
 	gd->queue = sdkp->device->request_queue;
-
+    
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
+    
 	/* defaults, until the device tells us otherwise */
 	sdp->sector_size = 512;
 	sdkp->capacity = 0;
@@ -2914,7 +2918,7 @@ static void sd_probe_async(void *data, async_cookie_t cookie)
 	sdkp->max_medium_access_timeouts = SD_MAX_MEDIUM_TIMEOUTS;
 
 	sd_revalidate_disk(gd);
-
+    
 	gd->driverfs_dev = &sdp->sdev_gendev;
 	gd->flags = GENHD_FL_EXT_DEVT;
 	if (sdp->removable) {
@@ -2964,6 +2968,8 @@ static int sd_probe(struct device *dev)
 	error = -ENODEV;
 	if (sdp->type != TYPE_DISK && sdp->type != TYPE_MOD && sdp->type != TYPE_RBC)
 		goto out;
+    
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	SCSI_LOG_HLQUEUE(3, sdev_printk(KERN_INFO, sdp,
 					"sd_probe\n"));
@@ -3022,7 +3028,7 @@ static int sd_probe(struct device *dev)
 
 	get_device(dev);
 	dev_set_drvdata(dev, sdkp);
-
+    
 	get_device(&sdkp->dev);	/* prevent release before async_schedule */
 	async_schedule_domain(sd_probe_async, sdkp, &scsi_sd_probe_domain);
 
@@ -3236,6 +3242,8 @@ static int __init init_sd(void)
 	int majors = 0, i, err;
 
 	SCSI_LOG_HLQUEUE(3, printk("init_sd: sd driver entry point\n"));
+    
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	for (i = 0; i < SD_MAJORS; i++) {
 		if (register_blkdev(sd_major(i), "sd") != 0)

@@ -1034,6 +1034,8 @@ int revalidate_disk(struct gendisk *disk)
 {
 	struct block_device *bdev;
 	int ret = 0;
+    
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	if (disk->fops->revalidate_disk)
 		ret = disk->fops->revalidate_disk(disk);
@@ -1065,6 +1067,8 @@ int check_disk_change(struct block_device *bdev)
 	struct gendisk *disk = bdev->bd_disk;
 	const struct block_device_operations *bdops = disk->fops;
 	unsigned int events;
+    
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	events = disk_clear_events(disk, DISK_EVENT_MEDIA_CHANGE |
 				   DISK_EVENT_EJECT_REQUEST);
