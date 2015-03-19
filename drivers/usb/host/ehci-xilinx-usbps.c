@@ -188,7 +188,9 @@ static int usb_hcd_xusbps_probe(const struct hc_driver *driver,
 		xotg->stop_host = ehci_xusbps_otg_stop_host;
 		/* inform otg driver about host driver */
 		xusbps_update_transceiver();
-
+		
+		printk(KERN_INFO"######usb_hcd_xusbps_probe(), begin usb_add_hcd()\r\n");
+		
 		retval = usb_add_hcd(hcd, irq, IRQF_DISABLED | IRQF_SHARED);
 		if (retval != 0)
 			goto err2;

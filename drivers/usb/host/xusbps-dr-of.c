@@ -191,7 +191,7 @@ static int __devinit xusbps_dr_of_probe(struct platform_device *ofdev)
 		release_mem_region(res->start, resource_size(res));
 		return -EFAULT;
 	}
-	printk("%s enter,start=0x%x,end=0x%x,regs=0x%x\n",__func__, res->start, res->end,pdata->regs);
+	printk("######%s enter,start=0x%x,end=0x%x,regs=0x%x\n",__func__, res->start, res->end,pdata->regs);
 
 	dev_data = get_dr_mode_data(np);
 	pdata->operating_mode = dev_data->op_mode;
