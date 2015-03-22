@@ -102,6 +102,8 @@ static int scsi_scan(struct Scsi_Host *shost, const char *str)
 	char s1[15], s2[15], s3[17], junk;
 	unsigned long long channel, id, lun;
 	int res;
+	
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	res = sscanf(str, "%10s %10s %16s %c", s1, s2, s3, &junk);
 	if (res != 3)
@@ -1026,6 +1028,8 @@ int scsi_sysfs_add_sdev(struct scsi_device *sdev)
 	int error, i;
 	struct request_queue *rq = sdev->request_queue;
 	struct scsi_target *starget = sdev->sdev_target;
+	
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	error = scsi_device_set_state(sdev, SDEV_RUNNING);
 	if (error)

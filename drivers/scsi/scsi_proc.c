@@ -243,6 +243,8 @@ static int scsi_add_single_device(uint host, uint channel, uint id, uint lun)
 {
 	struct Scsi_Host *shost;
 	int error = -ENXIO;
+	
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	shost = scsi_host_lookup(host);
 	if (!shost)

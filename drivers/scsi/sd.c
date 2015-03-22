@@ -2157,7 +2157,9 @@ sd_read_capacity(struct scsi_disk *sdkp, unsigned char *buffer)
 	int sector_size;
 	struct scsi_device *sdp = sdkp->device;
 	sector_t old_capacity = sdkp->capacity;
-
+	
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
+	
 	if (sd_try_rc16_first(sdp)) {
 		sector_size = read_capacity_16(sdkp, sdp, buffer);
 		if (sector_size == -EOVERFLOW)
@@ -2249,7 +2251,7 @@ got_data:
 				sizeof(cap_str_10));
 
 		if (sdkp->first_scan || old_capacity != sdkp->capacity) {
-			sd_printk(KERN_NOTICE, sdkp,
+			printk(KERN_INFO, sdkp,
 				  "%llu %d-byte logical blocks: (%s/%s)\n",
 				  (unsigned long long)sdkp->capacity,
 				  sector_size, cap_str_10, cap_str_2);
@@ -2345,9 +2347,9 @@ sd_read_write_protect_flag(struct scsi_disk *sdkp, unsigned char *buffer)
 		sdkp->write_prot = ((data.device_specific & 0x80) != 0);
 		set_disk_ro(sdkp->disk, sdkp->write_prot);
 		if (sdkp->first_scan || old_wp != sdkp->write_prot) {
-			sd_printk(KERN_NOTICE, sdkp, "Write Protect is %s\n",
+			printk(KERN_INFO, sdkp, "Write Protect is %s\n",
 				  sdkp->write_prot ? "on" : "off");
-			sd_printk(KERN_DEBUG, sdkp,
+			printk(KERN_INFO, sdkp,
 				  "Mode Sense: %02x %02x %02x %02x\n",
 				  buffer[0], buffer[1], buffer[2], buffer[3]);
 		}
@@ -2468,7 +2470,7 @@ sd_read_cache_type(struct scsi_disk *sdkp, unsigned char *buffer)
 			}
 		}
 
-		sd_first_printk(KERN_ERR, sdkp, "No Caching mode page found\n");
+		printk(KERN_INFO, sdkp, "No Caching mode page found\n");
 		goto defaults;
 
 	Page_found:
@@ -2932,8 +2934,8 @@ static void sd_probe_async(void *data, async_cookie_t cookie)
 		sd_dif_config_host(sdkp);
 
 	sd_revalidate_disk(gd);
-
-	sd_printk(KERN_NOTICE, sdkp, "Attached SCSI %sdisk\n",
+	
+	printk(KERN_INFO, sdkp, "Attached SCSI %sdisk\n",
 		  sdp->removable ? "removable " : "");
 	scsi_autopm_put_device(sdp);
 	put_device(&sdkp->dev);
@@ -2970,7 +2972,7 @@ static int sd_probe(struct device *dev)
 		goto out;
     
     printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
-
+	
 	SCSI_LOG_HLQUEUE(3, sdev_printk(KERN_INFO, sdp,
 					"sd_probe\n"));
 

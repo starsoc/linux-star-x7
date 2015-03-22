@@ -827,6 +827,7 @@ static void hub_power_on(struct usb_hub *hub, bool do_delay)
 	 * but only emulate it.  In all cases, the ports won't work
 	 * unless we send these messages to the hub.
 	 */
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 	if (hub_is_port_power_switchable(hub))
 		dev_dbg(hub->intfdev, "enabling power on all ports\n");
 	else
@@ -2753,6 +2754,8 @@ static int hub_port_reset(struct usb_hub *hub, int port1,
 	int i, status;
 	u16 portchange, portstatus;
 	struct usb_port *port_dev = hub->ports[port1 - 1];
+	
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	if (!hub_is_superspeed(hub->hdev)) {
 		if (warm) {
@@ -4164,8 +4167,8 @@ static int hub_set_address(struct usb_device *udev, int devnum)
 	int retval;
 	struct usb_hcd *hcd = bus_to_hcd(udev->bus);
     
-    printk(KERN_INFO"######%s:%d, addr device:%d\r\n", 
-        __func__, __LINE__, (u32)(hcd->driver->address_device));
+    printk(KERN_INFO"######%s:%d, addr device:%d, devnum:%d, speed:%d\r\n", 
+        __func__, __LINE__, (u32)(hcd->driver->address_device), devnum, udev->speed);
     
 	/*
 	 * The host controller will choose the device address,
@@ -4320,7 +4323,7 @@ hub_port_init (struct usb_hub *hub, struct usb_device *udev, int port1,
 		speed = "variable speed Wireless";
 	else
 		speed = usb_speed_string(udev->speed);
-
+	
 	if (udev->speed != USB_SPEED_SUPER)
 		printk(KERN_INFO,"######%s %s USB device number %d using %s\n",
 				(udev->config) ? "reset" : "new", speed,
@@ -4849,7 +4852,9 @@ static void hub_port_connect_change(struct usb_hub *hub, int port1,
 
 	dev_dbg(&port_dev->dev, "status %04x, change %04x, %s\n", portstatus,
 			portchange, portspeed(hub, portstatus));
-
+	
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
+	
 	if (hub->has_indicators) {
 		set_port_led(hub, port1, HUB_LED_AUTO);
 		hub->indicator[port1-1] = INDICATOR_AUTO;
@@ -4900,6 +4905,8 @@ static void port_event(struct usb_hub *hub, int port1)
 	struct usb_device *udev = port_dev->child;
 	struct usb_device *hdev = hub->hdev;
 	u16 portstatus, portchange;
+	
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	connect_change = test_bit(port1, hub->change_bits);
 	clear_bit(port1, hub->event_bits);
@@ -5024,6 +5031,8 @@ static void hub_events(void)
 	u16 hubstatus;
 	u16 hubchange;
 	int i, ret;
+	
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	/*
 	 *  We restart the list every time to avoid a deadlock with
@@ -5095,6 +5104,9 @@ static void hub_events(void)
 			hub->nerrors = 0;
 			hub->error = 0;
 		}
+		
+		printk(KERN_INFO"######%s:%d, maxchild:%d\r\n", 
+			__func__, __LINE__, hdev->maxchild);
 
 		/* deal with port status changes */
 		for (i = 1; i <= hdev->maxchild; i++) {

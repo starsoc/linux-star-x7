@@ -76,6 +76,10 @@
 #include "uas-detect.h"
 #endif
 
+#undef usb_stor_dbg
+#define usb_stor_dbg(us, fmt, ...)	printk(us, fmt, ##__VA_ARGS__)
+
+
 /* Some informational data */
 MODULE_AUTHOR("Matthew Dharm <mdharm-usb@one-eyed-alien.net>");
 MODULE_DESCRIPTION("USB Mass Storage driver for Linux");
@@ -969,6 +973,8 @@ int usb_stor_probe2(struct us_data *us)
 {
 	int result;
 	struct device *dev = &us->pusb_intf->dev;
+	
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	/* Make sure the transport and protocol have both been set */
 	if (!us->transport || !us->proto_handler) {
@@ -977,7 +983,7 @@ int usb_stor_probe2(struct us_data *us)
 	}
 	usb_stor_dbg(us, "Transport: %s\n", us->transport_name);
 	usb_stor_dbg(us, "Protocol: %s\n", us->protocol_name);
-
+	
 	/* fix for single-lun devices */
 	if (us->fflags & US_FL_SINGLE_LUN)
 		us->max_lun = 0;
@@ -1009,7 +1015,7 @@ int usb_stor_probe2(struct us_data *us)
 				"Unable to add the scsi host\n");
 		goto BadDevice;
 	}
-
+	
 	/* Submit the delayed_work for SCSI-device scanning */
 	usb_autopm_get_interface_no_resume(us->pusb_intf);
 	set_bit(US_FLIDX_SCAN_PENDING, &us->dflags);
@@ -1048,7 +1054,7 @@ static int storage_probe(struct usb_interface *intf,
 	int size;
     
     printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
-
+	
 	/* If uas is enabled and this device can do uas then ignore it. */
 #if IS_ENABLED(CONFIG_USB_UAS)
 	if (uas_use_uas_driver(intf, id))

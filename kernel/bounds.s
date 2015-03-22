@@ -12,7 +12,7 @@
 	.file	"bounds.c"
 @ GNU C (Sourcery CodeBench Lite 2011.09-50) version 4.6.1 (arm-xilinx-linux-gnueabi)
 @	compiled by GNU C version 4.3.2, GMP version 4.3.2, MPFR version 3.0.1-p4, MPC version 0.9
-@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+@ GGC heuristics: --param ggc-min-expand=98 --param ggc-min-heapsize=127348
 @ options passed:  -nostdinc -I ./arch/arm/include
 @ -I arch/arm/include/generated -I include -I ./arch/arm/include/uapi
 @ -I arch/arm/include/generated/uapi -I ./include/uapi

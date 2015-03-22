@@ -584,7 +584,7 @@ static int scsi_probe_lun(struct scsi_device *sdev, unsigned char *inq_result,
 	SCSI_LOG_SCAN_BUS(3, sdev_printk(KERN_INFO, sdev,
 				"scsi scan: INQUIRY pass %d length %d\n",
 				pass, try_inquiry_len));
-
+	
 	/* Each pass gets up to three chances to ignore Unit Attention */
 	for (count = 0; count < 3; ++count) {
 		int resid;
@@ -1475,7 +1475,7 @@ static int scsi_report_lun_scan(struct scsi_target *starget, int bflags,
 			    max_scsi_report_luns, num_luns);
 		num_luns = max_scsi_report_luns;
 	}
-
+	
 	SCSI_LOG_SCAN_BUS(3, sdev_printk (KERN_INFO, sdev,
 		"scsi scan: REPORT LUN scan\n"));
 
@@ -1659,6 +1659,8 @@ void scsi_scan_target(struct device *parent, unsigned int channel,
 		      unsigned int id, u64 lun, int rescan)
 {
 	struct Scsi_Host *shost = dev_to_shost(parent);
+	
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	if (strncmp(scsi_scan_type, "none", 4) == 0)
 		return;
@@ -1679,6 +1681,8 @@ static void scsi_scan_channel(struct Scsi_Host *shost, unsigned int channel,
 			      unsigned int id, u64 lun, int rescan)
 {
 	uint order_id;
+	
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	if (id == SCAN_WILD_CARD)
 		for (id = 0; id < shost->max_id; ++id) {
@@ -1712,6 +1716,8 @@ int scsi_scan_host_selected(struct Scsi_Host *shost, unsigned int channel,
 	SCSI_LOG_SCAN_BUS(3, shost_printk (KERN_INFO, shost,
 		"%s: <%u:%u:%llu>\n",
 		__func__, channel, id, lun));
+	
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	if (((channel != SCAN_WILD_CARD) && (channel > shost->max_channel)) ||
 	    ((id != SCAN_WILD_CARD) && (id >= shost->max_id)) ||
@@ -1854,6 +1860,8 @@ static void scsi_finish_async_scan(struct async_scan_data *data)
 
 static void do_scsi_scan_host(struct Scsi_Host *shost)
 {
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
+
 	if (shost->hostt->scan_finished) {
 		unsigned long start = jiffies;
 		if (shost->hostt->scan_start)

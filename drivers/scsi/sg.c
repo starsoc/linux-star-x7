@@ -1490,7 +1490,9 @@ sg_add_device(struct device *cl_dev, struct class_interface *cl_intf)
 	struct cdev * cdev = NULL;
 	int error;
 	unsigned long iflags;
-
+	
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
+	
 	disk = alloc_disk(1);
 	if (!disk) {
 		pr_warn("%s: alloc_disk failed\n", __func__);
