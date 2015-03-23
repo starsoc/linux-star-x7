@@ -2204,7 +2204,7 @@ sd_read_capacity(struct scsi_disk *sdkp, unsigned char *buffer)
 	 */
 	if (sdp->fix_capacity ||
 	    (sdp->guess_capacity && (sdkp->capacity & 0x01))) {
-		sd_printk(KERN_INFO, sdkp, "Adjusting the sector count "
+		printk(KERN_INFO"Adjusting the sector count "
 				"from its reported value: %llu\n",
 				(unsigned long long) sdkp->capacity);
 		--sdkp->capacity;
@@ -2213,7 +2213,7 @@ sd_read_capacity(struct scsi_disk *sdkp, unsigned char *buffer)
 got_data:
 	if (sector_size == 0) {
 		sector_size = 512;
-		sd_printk(KERN_NOTICE, sdkp, "Sector size 0 reported, "
+		printk(KERN_INFO"Sector size 0 reported, "
 			  "assuming 512.\n");
 	}
 
@@ -2222,7 +2222,7 @@ got_data:
 	    sector_size != 2048 &&
 	    sector_size != 4096 &&
 	    sector_size != 256) {
-		sd_printk(KERN_NOTICE, sdkp, "Unsupported sector size %d.\n",
+		printk(KERN_INFO"Unsupported sector size %d.\n",
 			  sector_size);
 		/*
 		 * The user might want to re-format the drive with
@@ -2251,15 +2251,12 @@ got_data:
 				sizeof(cap_str_10));
 
 		if (sdkp->first_scan || old_capacity != sdkp->capacity) {
-			printk(KERN_INFO, sdkp,
-				  "%llu %d-byte logical blocks: (%s/%s)\n",
+			printk(KERN_INFO"%llu %d-byte logical blocks: (%s/%s)\n",
 				  (unsigned long long)sdkp->capacity,
 				  sector_size, cap_str_10, cap_str_2);
 
 			if (sdkp->physical_block_size != sector_size)
-				sd_printk(KERN_NOTICE, sdkp,
-					  "%u-byte physical blocks\n",
-					  sdkp->physical_block_size);
+				printk(KERN_INFO"%u-byte physical blocks\n", sdkp->physical_block_size);
 		}
 	}
 
@@ -2347,11 +2344,8 @@ sd_read_write_protect_flag(struct scsi_disk *sdkp, unsigned char *buffer)
 		sdkp->write_prot = ((data.device_specific & 0x80) != 0);
 		set_disk_ro(sdkp->disk, sdkp->write_prot);
 		if (sdkp->first_scan || old_wp != sdkp->write_prot) {
-			printk(KERN_INFO, sdkp, "Write Protect is %s\n",
-				  sdkp->write_prot ? "on" : "off");
-			printk(KERN_INFO, sdkp,
-				  "Mode Sense: %02x %02x %02x %02x\n",
-				  buffer[0], buffer[1], buffer[2], buffer[3]);
+			printk(KERN_INFO"Write Protect is %s\n", sdkp->write_prot ? "on" : "off");
+			printk(KERN_INFO"Mode Sense: %02x %02x %02x %02x\n", buffer[0], buffer[1], buffer[2], buffer[3]);
 		}
 	}
 }
@@ -2470,7 +2464,7 @@ sd_read_cache_type(struct scsi_disk *sdkp, unsigned char *buffer)
 			}
 		}
 
-		printk(KERN_INFO, sdkp, "No Caching mode page found\n");
+		printk(KERN_INFO"No Caching mode page found\n");
 		goto defaults;
 
 	Page_found:
@@ -2934,8 +2928,8 @@ static void sd_probe_async(void *data, async_cookie_t cookie)
 		sd_dif_config_host(sdkp);
 
 	sd_revalidate_disk(gd);
-	
-	printk(KERN_INFO, sdkp, "Attached SCSI %sdisk\n",
+
+	sd_printk(KERN_NOTICE, sdkp, "Attached SCSI %sdisk\n",
 		  sdp->removable ? "removable " : "");
 	scsi_autopm_put_device(sdp);
 	put_device(&sdkp->dev);
@@ -2972,7 +2966,7 @@ static int sd_probe(struct device *dev)
 		goto out;
     
     printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
-	
+
 	SCSI_LOG_HLQUEUE(3, sdev_printk(KERN_INFO, sdp,
 					"sd_probe\n"));
 

@@ -395,6 +395,8 @@ static int clear_hub_feature(struct usb_device *hdev, int feature)
  */
 int usb_clear_port_feature(struct usb_device *hdev, int port1, int feature)
 {
+    
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 	return usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
 		USB_REQ_CLEAR_FEATURE, USB_RT_PORT, feature, port1,
 		NULL, 0, 1000);
@@ -572,6 +574,9 @@ static int hub_port_status(struct usb_hub *hub, int port1,
 		ret = 0;
 	}
 	mutex_unlock(&hub->status_mutex);
+    
+    printk(KERN_INFO"######%s:%d, ret:0x%x, change:0x%x\r\n", __func__, __LINE__, ret, *change);
+
 	return ret;
 }
 
@@ -2843,7 +2848,9 @@ static int hub_port_reset(struct usb_hub *hub, int port1,
 done:
 	if (!hub_is_superspeed(hub->hdev))
 		up_read(&ehci_cf_port_reset_rwsem);
-
+    
+    printk(KERN_INFO"######%s:%d, status:%d\r\n", __func__, __LINE__, status);
+    
 	return status;
 }
 
@@ -4181,7 +4188,7 @@ static int hub_set_address(struct usb_device *udev, int devnum)
 	if (udev->state != USB_STATE_DEFAULT)
 		return -EINVAL;
 	if (hcd->driver->address_device)
-		retval = hcd->driver->address_device(hcd, udev);
+		retval = hcd->driver->address_device(hcd, udev);    /* xhci_address_device */
 	else
 		retval = usb_control_msg(udev, usb_sndaddr0pipe(),
 				USB_REQ_SET_ADDRESS, 0, devnum, 0,
@@ -4226,6 +4233,8 @@ static void hub_set_initial_usb2_lpm_policy(struct usb_device *udev)
 static int hub_enable_device(struct usb_device *udev)
 {
 	struct usb_hcd *hcd = bus_to_hcd(udev->bus);
+    
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	if (!hcd->driver->enable_device)
 		return 0;
@@ -4356,6 +4365,9 @@ hub_port_init (struct usb_hub *hub, struct usb_device *udev, int port1,
 	 * first 8 bytes of the device descriptor to get the ep0 maxpacket
 	 * value.
 	 */
+
+    printk(KERN_INFO"######%s:%d, tt:0x%x\r\n", __func__, __LINE__, (u32)(hdev->tt));
+    
 	for (i = 0; i < GET_DESCRIPTOR_TRIES; (++i, msleep(100))) {
 		bool did_new_scheme = false;
 
@@ -4400,7 +4412,10 @@ hub_port_init (struct usb_hub *hub, struct usb_device *udev, int port1,
 					/* FALL THROUGH */
 				default:
 					if (r == 0)
-						r = -EPROTO;
+                    {   
+                        printk(KERN_INFO"######%s:%d, get descriptor error\r\n", __func__, __LINE__);
+                        r = -EPROTO;
+                    }
 					break;
 				}
 				if (r == 0)
@@ -4409,7 +4424,7 @@ hub_port_init (struct usb_hub *hub, struct usb_device *udev, int port1,
 			udev->descriptor.bMaxPacketSize0 =
 					buf->bMaxPacketSize0;
 			kfree(buf);
-
+            
 			retval = hub_port_reset(hub, port1, udev, delay, false);
 			if (retval < 0)		/* error or disconnect */
 				goto fail;
@@ -4443,7 +4458,7 @@ hub_port_init (struct usb_hub *hub, struct usb_device *udev, int port1,
 			}
 			if (retval < 0) {
 				if (retval != -ENODEV)
-					dev_err(&udev->dev, "device not accepting address %d, error %d\n",
+					printk(KERN_INFO"######device not accepting address %d, error %d\n",
 							devnum, retval);
 				goto fail;
 			}
@@ -4454,7 +4469,7 @@ hub_port_init (struct usb_hub *hub, struct usb_device *udev, int port1,
 						(udev->config) ? "reset" : "new",
 						devnum, udev->bus->controller->driver->name);
 			}
-
+            
 			/* cope with hardware quirkiness:
 			 *  - let SET_ADDRESS settle, some device hardware wants it
 			 *  - read ep0 maxpacket even for high and low speed,
@@ -4471,9 +4486,7 @@ hub_port_init (struct usb_hub *hub, struct usb_device *udev, int port1,
 		retval = usb_get_device_descriptor(udev, 8);
 		if (retval < 8) {
 			if (retval != -ENODEV)
-				dev_err(&udev->dev,
-					"device descriptor read/8, error %d\n",
-					retval);
+				printk(KERN_INFO"######device descriptor read/8, error %d\n", retval);
 			if (retval >= 0)
 				retval = -EMSGSIZE;
 		} else {
@@ -4560,11 +4573,13 @@ check_highspeed (struct usb_hub *hub, struct usb_device *udev, int port1)
 {
 	struct usb_qualifier_descriptor	*qual;
 	int				status;
+    
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	qual = kmalloc (sizeof *qual, GFP_KERNEL);
 	if (qual == NULL)
 		return;
-
+    
 	status = usb_get_descriptor (udev, USB_DT_DEVICE_QUALIFIER, 0,
 			qual, sizeof *qual);
 	if (status == sizeof *qual) {
@@ -4637,8 +4652,9 @@ static void hub_port_connect(struct usb_hub *hub, int port1, u16 portstatus,
 	struct usb_port *port_dev = hub->ports[port1 - 1];
 	struct usb_device *udev = port_dev->child;
 	static int unreliable_port = -1;
+    
     printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
-
+    
 	/* Disconnect any existing devices under this port */
 	if (udev) {
 		if (hcd->phy && !hdev->parent &&
@@ -4722,6 +4738,10 @@ static void hub_port_connect(struct usb_hub *hub, int port1, u16 portstatus,
 		/* reset (non-USB 3.0 devices) and get descriptor */
 		usb_lock_port(port_dev);
 		status = hub_port_init(hub, udev, port1, i);
+        
+        printk(KERN_INFO"######%s:%d, hub_port_init over, i:%d\r\n", 
+            __func__, __LINE__, i);
+        
 		usb_unlock_port(port_dev);
 		if (status < 0)
 			goto loop;
@@ -4853,7 +4873,8 @@ static void hub_port_connect_change(struct usb_hub *hub, int port1,
 	dev_dbg(&port_dev->dev, "status %04x, change %04x, %s\n", portstatus,
 			portchange, portspeed(hub, portstatus));
 	
-    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
+    printk(KERN_INFO"######%s:%d, status %04x, change %04x, %s\r\n", 
+        __func__, __LINE__, portstatus, portchange, portspeed(hub, portstatus));
 	
 	if (hub->has_indicators) {
 		set_port_led(hub, port1, HUB_LED_AUTO);
@@ -4907,7 +4928,7 @@ static void port_event(struct usb_hub *hub, int port1)
 	u16 portstatus, portchange;
 	
     printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
-
+    
 	connect_change = test_bit(port1, hub->change_bits);
 	clear_bit(port1, hub->event_bits);
 	clear_bit(port1, hub->wakeup_bits);
@@ -4919,7 +4940,7 @@ static void port_event(struct usb_hub *hub, int port1)
 		usb_clear_port_feature(hdev, port1, USB_PORT_FEAT_C_CONNECTION);
 		connect_change = 1;
 	}
-
+    
 	if (portchange & USB_PORT_STAT_C_ENABLE) {
 		if (!connect_change)
 			dev_dbg(&port_dev->dev, "enable change, status %08x\n",
