@@ -544,7 +544,7 @@ static int get_port_status(struct usb_device *hdev, int port1,
 		struct usb_port_status *data)
 {
 	int i, status = -ETIMEDOUT;
-
+	
 	for (i = 0; i < USB_STS_RETRIES &&
 			(status == -ETIMEDOUT || status == -EPIPE); i++) {
 		status = usb_control_msg(hdev, usb_rcvctrlpipe(hdev, 0),
@@ -575,8 +575,8 @@ static int hub_port_status(struct usb_hub *hub, int port1,
 	}
 	mutex_unlock(&hub->status_mutex);
     
-    printk(KERN_INFO"######%s:%d, ret:0x%x, change:0x%x\r\n", __func__, __LINE__, ret, *change);
-
+    printk(KERN_INFO"######%s:%d, ret:0x%x, status:0x%x, change:0x%x\r\n", __func__, __LINE__, ret, *status, *change);
+	
 	return ret;
 }
 
@@ -976,6 +976,7 @@ static void hub_port_logical_disconnect(struct usb_hub *hub, int port1)
 	 * khubd reactivates the port later (timer, SRP, etc).
 	 * Powerdown must be optional, because of reset/DFU.
 	 */
+	printk(KERN_INFO"######%s:%d, port1:%d\r\n", __func__, __LINE__, port1);
 
 	set_bit(port1, hub->change_bits);
 	kick_khubd(hub);
@@ -1027,6 +1028,8 @@ static void hub_activate(struct usb_hub *hub, enum hub_activation_type type)
 	int status;
 	bool need_debounce_delay = false;
 	unsigned delay;
+	
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	/* Continue a partial initialization */
 	if (type == HUB_INIT2)
@@ -1119,7 +1122,7 @@ static void hub_activate(struct usb_hub *hub, enum hub_activation_type type)
 		if (udev || (portstatus & USB_PORT_STAT_CONNECTION))
 			dev_dbg(&port_dev->dev, "status %04x change %04x\n",
 					portstatus, portchange);
-
+		
 		/*
 		 * After anything other than HUB_RESUME (i.e., initialization
 		 * or any sort of reset), every port should be disabled.
@@ -1142,7 +1145,7 @@ static void hub_activate(struct usb_hub *hub, enum hub_activation_type type)
 				usb_clear_port_feature(hdev, port1,
 						   USB_PORT_FEAT_ENABLE);
 		}
-
+		
 		/* Clear status-change flags; we'll debounce later */
 		if (portchange & USB_PORT_STAT_C_CONNECTION) {
 			need_debounce_delay = true;
@@ -1178,7 +1181,10 @@ static void hub_activate(struct usb_hub *hub, enum hub_activation_type type)
 			 */
 			if (udev || (portstatus & USB_PORT_STAT_CONNECTION) ||
 			    (portstatus & USB_PORT_STAT_OVERCURRENT))
-				set_bit(port1, hub->change_bits);
+				{
+					printk(KERN_INFO"######%s:%d, port1:%d, portstatus:0x%x\r\n", __func__, __LINE__, port1, portstatus);
+					set_bit(port1, hub->change_bits);
+				}
 
 		} else if (portstatus & USB_PORT_STAT_ENABLE) {
 			bool port_resumed = (portstatus &
@@ -1194,7 +1200,10 @@ static void hub_activate(struct usb_hub *hub, enum hub_activation_type type)
 			 */
 			if (portchange || (hub_is_superspeed(hub->hdev) &&
 						port_resumed))
+				{
+				printk(KERN_INFO"######%s:%d, port1:%d\r\n", __func__, __LINE__, port1);
 				set_bit(port1, hub->change_bits);
+				}
 
 		} else if (udev->persist_enabled) {
 #ifdef CONFIG_PM
@@ -1204,11 +1213,14 @@ static void hub_activate(struct usb_hub *hub, enum hub_activation_type type)
 			 * was powered off.
 			 */
 			if (test_bit(port1, hub->power_bits))
+				{
+				printk(KERN_INFO"######%s:%d, port1:%d\r\n", __func__, __LINE__, port1);
 				set_bit(port1, hub->change_bits);
-
+				}
 		} else {
 			/* The power session is gone; tell khubd */
 			usb_set_device_state(udev, USB_STATE_NOTATTACHED);
+			printk(KERN_INFO"######%s:%d, port1:%d\r\n", __func__, __LINE__, port1);
 			set_bit(port1, hub->change_bits);
 		}
 	}
@@ -4907,8 +4919,9 @@ static void hub_port_connect_change(struct usb_hub *hub, int port1,
 			/* Don't resuscitate */;
 		}
 	}
+	printk(KERN_INFO"######%s:%d, port1:%d\r\n", __func__, __LINE__, port1);
 	clear_bit(port1, hub->change_bits);
-
+	
 	/* successfully revalidated the connection */
 	if (status == 0)
 		return;
@@ -4927,9 +4940,11 @@ static void port_event(struct usb_hub *hub, int port1)
 	struct usb_device *hdev = hub->hdev;
 	u16 portstatus, portchange;
 	
-    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
     
 	connect_change = test_bit(port1, hub->change_bits);
+	
+    printk(KERN_INFO"######%s:%d, connect_change:%d\r\n", __func__, __LINE__, connect_change);
+	
 	clear_bit(port1, hub->event_bits);
 	clear_bit(port1, hub->wakeup_bits);
 
@@ -5132,7 +5147,11 @@ static void hub_events(void)
 		/* deal with port status changes */
 		for (i = 1; i <= hdev->maxchild; i++) {
 			struct usb_port *port_dev = hub->ports[i - 1];
-
+			
+			
+			printk(KERN_INFO"######%s:%d, event_bits:%d, change_bits:%d, wakeup_bits:%d\r\n", 
+				__func__, __LINE__, test_bit(i, hub->event_bits), test_bit(i, hub->change_bits), test_bit(i, hub->wakeup_bits));
+			
 			if (test_bit(i, hub->event_bits)
 					|| test_bit(i, hub->change_bits)
 					|| test_bit(i, hub->wakeup_bits)) {

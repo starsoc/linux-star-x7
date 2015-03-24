@@ -1879,6 +1879,8 @@ static void do_scan_async(void *_data, async_cookie_t c)
 {
 	struct async_scan_data *data = _data;
 	struct Scsi_Host *shost = data->shost;
+	
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	do_scsi_scan_host(shost);
 	scsi_finish_async_scan(data);
@@ -1891,12 +1893,12 @@ static void do_scan_async(void *_data, async_cookie_t c)
 void scsi_scan_host(struct Scsi_Host *shost)
 {
 	struct async_scan_data *data;
-
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 	if (strncmp(scsi_scan_type, "none", 4) == 0)
 		return;
 	if (scsi_autopm_get_host(shost) < 0)
 		return;
-
+	
 	data = scsi_prep_async_scan(shost);
 	if (!data) {
 		do_scsi_scan_host(shost);

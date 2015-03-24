@@ -877,6 +877,8 @@ static void usb_stor_scan_dwork(struct work_struct *work)
 	struct us_data *us = container_of(work, struct us_data,
 			scan_dwork.work);
 	struct device *dev = &us->pusb_intf->dev;
+	
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	dev_dbg(dev, "starting scan\n");
 
@@ -941,7 +943,7 @@ int usb_stor_probe1(struct us_data **pus,
 	init_completion(&(us->notify));
 	init_waitqueue_head(&us->delay_wait);
 	INIT_DELAYED_WORK(&us->scan_dwork, usb_stor_scan_dwork);
-
+	
 	/* Associate the us_data structure with the USB device */
 	result = associate_dev(us, intf);
 	if (result)
