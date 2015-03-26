@@ -1182,10 +1182,10 @@ static void hub_activate(struct usb_hub *hub, enum hub_activation_type type)
 			if (udev || (portstatus & USB_PORT_STAT_CONNECTION) ||
 			    (portstatus & USB_PORT_STAT_OVERCURRENT))
 				{
-					printk(KERN_INFO"######%s:%d, port1:%d, portstatus:0x%x\r\n", __func__, __LINE__, port1, portstatus);
+					printk(KERN_INFO"######%s:%d, port1:%d, portstatus:0x%x, set change_bits\r\n", __func__, __LINE__, port1, portstatus);
 					set_bit(port1, hub->change_bits);
 				}
-
+			
 		} else if (portstatus & USB_PORT_STAT_ENABLE) {
 			bool port_resumed = (portstatus &
 					USB_PORT_STAT_LINK_STATE) ==
@@ -1269,6 +1269,7 @@ static void hub_activate(struct usb_hub *hub, enum hub_activation_type type)
 static void hub_init_func2(struct work_struct *ws)
 {
 	struct usb_hub *hub = container_of(ws, struct usb_hub, init_work.work);
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	hub_activate(hub, HUB_INIT2);
 }
@@ -1276,6 +1277,7 @@ static void hub_init_func2(struct work_struct *ws)
 static void hub_init_func3(struct work_struct *ws)
 {
 	struct usb_hub *hub = container_of(ws, struct usb_hub, init_work.work);
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	hub_activate(hub, HUB_INIT3);
 }
@@ -1334,6 +1336,7 @@ static int hub_pre_reset(struct usb_interface *intf)
 static int hub_post_reset(struct usb_interface *intf)
 {
 	struct usb_hub *hub = usb_get_intfdata(intf);
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	hub->in_reset = 0;
 	hub_pm_barrier_for_all_ports(hub);
@@ -1355,6 +1358,7 @@ static int hub_configure(struct usb_hub *hub,
 	unsigned unit_load;
 	unsigned full_load;
 	unsigned maxchild;
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	hub->buffer = kmalloc(sizeof(*hub->buffer), GFP_KERNEL);
 	if (!hub->buffer) {
@@ -3622,6 +3626,7 @@ static int hub_suspend(struct usb_interface *intf, pm_message_t msg)
 static int hub_resume(struct usb_interface *intf)
 {
 	struct usb_hub *hub = usb_get_intfdata(intf);
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	dev_dbg(&intf->dev, "%s\n", __func__);
 	hub_activate(hub, HUB_RESUME);
@@ -3631,6 +3636,7 @@ static int hub_resume(struct usb_interface *intf)
 static int hub_reset_resume(struct usb_interface *intf)
 {
 	struct usb_hub *hub = usb_get_intfdata(intf);
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	dev_dbg(&intf->dev, "%s\n", __func__);
 	hub_activate(hub, HUB_RESET_RESUME);

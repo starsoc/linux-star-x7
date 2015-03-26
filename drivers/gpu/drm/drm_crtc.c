@@ -2444,7 +2444,7 @@ int drm_mode_set_config_internal(struct drm_mode_set *set)
 
 	fb = set->fb;
 
-	ret = crtc->funcs->set_config(set);
+	ret = crtc->funcs->set_config(set);			// add by starsoc  drm_crtc_helper_set_config()
 	if (ret == 0) {
 		crtc->primary->crtc = crtc;
 		crtc->primary->fb = fb;

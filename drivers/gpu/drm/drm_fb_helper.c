@@ -1068,7 +1068,7 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
 	}
 
 	/* push down into drivers */
-	ret = (*fb_helper->funcs->fb_probe)(fb_helper, &sizes);
+	ret = (*fb_helper->funcs->fb_probe)(fb_helper, &sizes);			// add by starsoc drm_fbdev_cma_create()
 	if (ret < 0)
 		return ret;
 

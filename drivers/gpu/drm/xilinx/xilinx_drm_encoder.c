@@ -54,10 +54,10 @@ static void xilinx_drm_encoder_dpms(struct drm_encoder *base_encoder, int dpms)
 
 	if (encoder->dpms == dpms)
 		return;
-
+	
 	encoder->dpms = dpms;
 	if (encoder_sfuncs->dpms)
-		encoder_sfuncs->dpms(base_encoder, dpms);
+		encoder_sfuncs->dpms(base_encoder, dpms);			// add by starsoc  xilinx_drm_crtc_dpms()  adv7511_encoder_dpms()
 }
 
 /* adjust a mode if needed */
@@ -95,7 +95,7 @@ static void xilinx_drm_encoder_mode_set(struct drm_encoder *base_encoder,
 	encoder_slave = to_encoder_slave(base_encoder);
 	encoder_sfuncs = encoder_slave->slave_funcs;
 	if (encoder_sfuncs->mode_set)
-		encoder_sfuncs->mode_set(base_encoder, mode, adjusted_mode);
+		encoder_sfuncs->mode_set(base_encoder, mode, adjusted_mode);		// add by starsoc adv7511_encoder_mode_set()
 }
 
 /* apply mode to encoder pipe */
