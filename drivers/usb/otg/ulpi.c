@@ -193,9 +193,8 @@ static int ulpi_init(struct usb_phy *phy)
 	vid = ulpi_id & 0xffff;
 	pid = ulpi_id >> 16;
 
-    printk("%s 1111\n",__func__);
 	pr_info("ULPI transceiver vendor/product ID 0x%04x/0x%04x\n", vid, pid);
-
+	
 	for (i = 0; i < ARRAY_SIZE(ulpi_ids); i++) {
 		if (ulpi_ids[i].id == ULPI_ID(vid, pid)) {
 			pr_info("Found %s ULPI transceiver.\n",

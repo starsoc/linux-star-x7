@@ -73,13 +73,14 @@ static struct xusbps_otg *the_transceiver;
 void xusbps_update_transceiver(void)
 {
 	struct xusbps_otg *xotg = the_transceiver;
-    printk(KERN_INFO"%s:%d\r\n", __func__, __LINE__);
-    
-	dev_dbg(xotg->dev, "transceiver is updated\n");
-
+    printk(KERN_INFO"######%s:%d, xotg:%d\r\n", __func__, __LINE__, (u32)(xotg));
+    if (!xotg)
+		return;
+	dev_dbg(xotg->dev, "######transceiver is updated\n");
+	
 	if (!xotg->qwork)
 		return ;
-
+	
 	queue_work(xotg->qwork, &xotg->work);
 }
 EXPORT_SYMBOL(xusbps_update_transceiver);
@@ -1934,7 +1935,7 @@ static int xusbps_otg_probe(struct platform_device *pdev)
 
 	dev_dbg(&pdev->dev, "\notg controller is detected.\n");
     
-    printk(KERN_INFO"%s:%d\r\n", __func__, __LINE__);
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
     
 	xotg = kzalloc(sizeof *xotg, GFP_KERNEL);
 	if (xotg == NULL)
@@ -1963,7 +1964,7 @@ static int xusbps_otg_probe(struct platform_device *pdev)
 	}
 	INIT_WORK(&xotg->work, xusbps_otg_work);
     
-    printk(KERN_INFO"%s:%d, create_singlethread_workqueue\r\n", __func__, __LINE__);
+    printk(KERN_INFO"######%s:%d, create_singlethread_workqueue\r\n", __func__, __LINE__);
     
 	/* OTG common part */
 	xotg->dev = &pdev->dev;
