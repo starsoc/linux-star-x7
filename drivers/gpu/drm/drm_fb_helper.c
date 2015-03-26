@@ -658,7 +658,8 @@ int drm_fb_helper_set_par(struct fb_info *info)
 	mutex_lock(&dev->mode_config.mutex);
 	for (i = 0; i < fb_helper->crtc_count; i++) {
 		crtc = fb_helper->crtc_info[i].mode_set.crtc;
-		ret = crtc->funcs->set_config(&fb_helper->crtc_info[i].mode_set);
+        // add by starsoc drm_crtc_helper_set_config()
+		ret = crtc->funcs->set_config(&fb_helper->crtc_info[i].mode_set);   
 		if (ret) {
 			mutex_unlock(&dev->mode_config.mutex);
 			return ret;

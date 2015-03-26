@@ -173,9 +173,9 @@ static void analog_drm_encoder_dpms(struct drm_encoder *encoder, int mode)
 		iowrite32(0, private->base + ANALOG_REG_CTRL);
 		break;
 	}
-
+    
 	if (sfuncs && sfuncs->dpms)
-		sfuncs->dpms(encoder, mode);
+		sfuncs->dpms(encoder, mode);    // add by starsoc   analog_drm_crtc_dpms()
 }
 
 struct analog_drm_crtc_clock_setting {

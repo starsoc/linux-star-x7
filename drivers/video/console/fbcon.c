@@ -1115,7 +1115,7 @@ static void fbcon_init(struct vc_data *vc, int init)
 	if (CON_IS_VISIBLE(vc) && vc->vc_mode == KD_TEXT) {
 		if (info->fbops->fb_set_par &&
 		    !(ops->flags & FBCON_FLAGS_INIT)) {
-			ret = info->fbops->fb_set_par(info);
+			ret = info->fbops->fb_set_par(info);        // add by starsoc drm_fb_helper_set_par()
 
 			if (ret)
 				printk(KERN_ERR "fbcon_init: detected "

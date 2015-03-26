@@ -426,9 +426,9 @@ bool drm_crtc_helper_set_mode(struct drm_crtc *crtc,
 		encoder_funcs = encoder->helper_private;
 		encoder_funcs->mode_set(encoder, mode, adjusted_mode);
 	}
-
+    
 	/* Now enable the clocks, plane, pipe, and connectors that we set up. */
-	crtc_funcs->commit(crtc);
+	crtc_funcs->commit(crtc);      
 
 	list_for_each_entry(encoder, &dev->mode_config.encoder_list, head) {
 
@@ -436,8 +436,8 @@ bool drm_crtc_helper_set_mode(struct drm_crtc *crtc,
 			continue;
 
 		encoder_funcs = encoder->helper_private;
-		encoder_funcs->commit(encoder);
-
+		encoder_funcs->commit(encoder);  // add by starsoc analog_drm_encoder_commit()
+ 
 	}
 
 	/* Store real post-adjustment hardware mode. */

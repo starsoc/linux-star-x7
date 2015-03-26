@@ -86,7 +86,7 @@ static int analog_drm_load(struct drm_device *dev, unsigned long flags)
 
 	private->ddc_adapter = ddc_adapter;
 	private->slave_adapter = slave_adapter;
-
+    
 	analog_drm_encoder_create(dev);
 	private->fbdev = drm_fbdev_cma_init(dev, 32, 1, 1);
 	if (IS_ERR(private->fbdev)) {
