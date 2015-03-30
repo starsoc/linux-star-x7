@@ -20,8 +20,6 @@ static int __init init_this_scsi_driver(void)
 	struct Scsi_Host *shost;
 	struct list_head *l;
 	int error;
-	
-    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
 
 	if (!sht->release) {
 		printk(KERN_ERR

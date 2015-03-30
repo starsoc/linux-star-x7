@@ -740,7 +740,7 @@ static void visual_init(struct vc_data *vc, int num, int init)
 	vc->vc_complement_mask = 0;
 	vc->vc_can_do_color = 0;
 	vc->vc_panic_force_write = false;
-	vc->vc_sw->con_init(vc, init);					// add by starsoc fbcon_init()
+	vc->vc_sw->con_init(vc, init);
 	if (!vc->vc_complement_mask)
 		vc->vc_complement_mask = vc->vc_can_do_color ? 0x7700 : 0x0800;
 	vc->vc_s_complement_mask = vc->vc_complement_mask;
@@ -3588,7 +3588,7 @@ static int do_register_con_driver(const struct consw *csw, int first, int last)
 	if (retval)
 		goto err;
 
-	desc = csw->con_startup();				// add by starsoc fbcon_startup()
+	desc = csw->con_startup();
 
 	if (!desc)
 		goto err;

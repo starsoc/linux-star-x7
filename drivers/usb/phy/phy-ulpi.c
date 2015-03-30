@@ -191,10 +191,8 @@ static int ulpi_init(struct usb_phy *phy)
 	}
 	vid = ulpi_id & 0xffff;
 	pid = ulpi_id >> 16;
-	
-	// pr_info("ULPI transceiver vendor/product ID 0x%04x/0x%04x\n", vid, pid);
-    printk(KERN_INFO"######%s:%d, ULPI transceiver vendor/product ID 0x%04x/0x%04x\r\n", 
-		__func__, __LINE__, vid, pid);
+
+	pr_info("ULPI transceiver vendor/product ID 0x%04x/0x%04x\n", vid, pid);
 
 	for (i = 0; i < ARRAY_SIZE(ulpi_ids); i++) {
 		if (ulpi_ids[i].id == ULPI_ID(vid, pid)) {
@@ -203,7 +201,7 @@ static int ulpi_init(struct usb_phy *phy)
 			break;
 		}
 	}
-	
+
 	ret = ulpi_check_integrity(phy);
 	if (ret)
 		return ret;
