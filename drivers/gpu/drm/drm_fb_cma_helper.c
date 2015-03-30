@@ -261,6 +261,8 @@ static int drm_fbdev_cma_create(struct drm_fb_helper *helper,
 	DRM_DEBUG_KMS("surface width(%d), height(%d) and bpp(%d)\n",
 			sizes->surface_width, sizes->surface_height,
 			sizes->surface_bpp);
+	
+	PRINTK_HDMI("%s:%s, %d\r\n", __FILE__, __func__, __LINE__); 
 
 	bytes_per_pixel = DIV_ROUND_UP(sizes->surface_bpp, 8);
 
@@ -347,6 +349,8 @@ struct drm_fbdev_cma *drm_fbdev_cma_init(struct drm_device *dev,
 	struct drm_fbdev_cma *fbdev_cma;
 	struct drm_fb_helper *helper;
 	int ret;
+	
+	PRINTK_HDMI("%s:%s, %d\r\n", __FILE__, __func__, __LINE__); 
 
 	fbdev_cma = kzalloc(sizeof(*fbdev_cma), GFP_KERNEL);
 	if (!fbdev_cma) {

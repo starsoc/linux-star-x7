@@ -335,7 +335,7 @@ bool drm_crtc_helper_set_mode(struct drm_crtc *crtc,
 	/* Set up the DPLL and any encoders state that needs to adjust or depend
 	 * on the DPLL.
 	 */
-	ret = !crtc_funcs->mode_set(crtc, mode, adjusted_mode, x, y, old_fb);
+	ret = !crtc_funcs->mode_set(crtc, mode, adjusted_mode, x, y, old_fb);	
 	if (!ret)
 	    goto done;
 
@@ -348,7 +348,7 @@ bool drm_crtc_helper_set_mode(struct drm_crtc *crtc,
 			encoder->base.id, encoder->name,
 			mode->base.id, mode->name);
 		encoder_funcs = encoder->helper_private;
-		encoder_funcs->mode_set(encoder, mode, adjusted_mode);
+		encoder_funcs->mode_set(encoder, mode, adjusted_mode);	// add by starsoc xilinx_drm_encoder_mode_set()
 
 		if (encoder->bridge && encoder->bridge->funcs->mode_set)
 			encoder->bridge->funcs->mode_set(encoder->bridge, mode,
@@ -356,8 +356,8 @@ bool drm_crtc_helper_set_mode(struct drm_crtc *crtc,
 	}
 
 	/* Now enable the clocks, plane, pipe, and connectors that we set up. */
-	crtc_funcs->commit(crtc);
-
+	crtc_funcs->commit(crtc);						   // add by starsoc xilinx_drm_crtc_commit()
+	
 	list_for_each_entry(encoder, &dev->mode_config.encoder_list, head) {
 
 		if (encoder->crtc != crtc)
@@ -367,12 +367,12 @@ bool drm_crtc_helper_set_mode(struct drm_crtc *crtc,
 			encoder->bridge->funcs->pre_enable(encoder->bridge);
 
 		encoder_funcs = encoder->helper_private;
-		encoder_funcs->commit(encoder);
+		encoder_funcs->commit(encoder);					//add by starsoc   xilinx_drm_encoder_commit()
 
 		if (encoder->bridge)
 			encoder->bridge->funcs->enable(encoder->bridge);
 	}
-
+	
 	/* Store real post-adjustment hardware mode. */
 	crtc->hwmode = *adjusted_mode;
 
@@ -455,6 +455,7 @@ int drm_crtc_helper_set_config(struct drm_mode_set *set)
 	int i;
 
 	DRM_DEBUG_KMS("\n");
+	PRINTK_HDMI("%s:%s, %d\r\n", __FILE__, __func__, __LINE__); 
 
 	BUG_ON(!set);
 	BUG_ON(!set->crtc);
@@ -633,6 +634,8 @@ int drm_crtc_helper_set_config(struct drm_mode_set *set)
 					" userspace\n");
 			drm_mode_debug_printmodeline(set->mode);
 			set->crtc->primary->fb = set->fb;
+			
+			PRINTK_HDMI("%s:%s, %d, will call drm_crtc_helper_set_mode 1\r\n", __FILE__, __func__, __LINE__); 
 			if (!drm_crtc_helper_set_mode(set->crtc, set->mode,
 						      set->x, set->y,
 						      save_set.fb)) {

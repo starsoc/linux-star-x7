@@ -226,6 +226,8 @@ static int xilinx_drm_load(struct drm_device *drm, unsigned long flags)
 	struct platform_device *pdev = drm->platformdev;
 	unsigned int bpp;
 	int ret;
+	
+	PRINTK_HDMI("%s:%s, %d\r\n", __FILE__, __func__, __LINE__); 
 
 	private = devm_kzalloc(drm->dev, sizeof(*private), GFP_KERNEL);
 	if (!private)
@@ -418,6 +420,8 @@ static const struct dev_pm_ops xilinx_drm_pm_ops = {
 /* init xilinx drm platform */
 static int xilinx_drm_platform_probe(struct platform_device *pdev)
 {
+	PRINTK_HDMI("%s:%s, %d\r\n", __FILE__, __func__, __LINE__); 
+
 	return drm_platform_init(&xilinx_drm_driver, pdev);
 }
 

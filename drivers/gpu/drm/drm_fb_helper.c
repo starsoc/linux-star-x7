@@ -342,6 +342,8 @@ static bool restore_fbdev_mode(struct drm_fb_helper *fb_helper)
 	struct drm_plane *plane;
 	bool error = false;
 	int i;
+	
+	PRINTK_HDMI("%s:%s, %d\r\n", __FILE__, __func__, __LINE__); 
 
 	drm_warn_on_modeset_not_all_locked(dev);
 
@@ -932,6 +934,7 @@ int drm_fb_helper_set_par(struct fb_info *info)
 		DRM_ERROR("PIXEL CLOCK SET\n");
 		return -EINVAL;
 	}
+	PRINTK_HDMI("%s:%s, %d\r\n", __FILE__, __func__, __LINE__); 
 
 	drm_fb_helper_restore_fbdev_mode_unlocked(fb_helper);
 
@@ -996,6 +999,7 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
 	struct fb_info *info;
 	struct drm_fb_helper_surface_size sizes;
 	int gamma_size = 0;
+	PRINTK_HDMI("%s:%s, %d\r\n", __FILE__, __func__, __LINE__); 
 
 	memset(&sizes, 0, sizeof(struct drm_fb_helper_surface_size));
 	sizes.surface_depth = 24;
@@ -1068,7 +1072,7 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
 	}
 
 	/* push down into drivers */
-	ret = (*fb_helper->funcs->fb_probe)(fb_helper, &sizes);
+	ret = (*fb_helper->funcs->fb_probe)(fb_helper, &sizes);			// add by starsoc drm_fbdev_cma_create()
 	if (ret < 0)
 		return ret;
 
@@ -1656,6 +1660,8 @@ bool drm_fb_helper_initial_config(struct drm_fb_helper *fb_helper, int bpp_sel)
 {
 	struct drm_device *dev = fb_helper->dev;
 	int count = 0;
+	
+	PRINTK_HDMI("%s:%s, %d\r\n", __FILE__, __func__, __LINE__); 
 
 	drm_fb_helper_parse_command_line(fb_helper);
 

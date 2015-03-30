@@ -731,6 +731,8 @@ static void visual_init(struct vc_data *vc, int num, int init)
 	if (con_driver_map[num])
 		vc->vc_sw = con_driver_map[num];
 #endif
+	PRINTK_HDMI("%s:%s, %d\r\n", __FILE__, __func__, __LINE__); 
+
 	__module_get(vc->vc_sw->owner);
 	vc->vc_num = num;
 	vc->vc_display_fg = &master_display_fg;
@@ -740,7 +742,7 @@ static void visual_init(struct vc_data *vc, int num, int init)
 	vc->vc_complement_mask = 0;
 	vc->vc_can_do_color = 0;
 	vc->vc_panic_force_write = false;
-	vc->vc_sw->con_init(vc, init);
+	vc->vc_sw->con_init(vc, init);					// add by starsoc fbcon_init()
 	if (!vc->vc_complement_mask)
 		vc->vc_complement_mask = vc->vc_can_do_color ? 0x7700 : 0x0800;
 	vc->vc_s_complement_mask = vc->vc_complement_mask;
@@ -3085,6 +3087,7 @@ static int do_bind_con_driver(const struct consw *csw, int first, int last,
 
 	if (!try_module_get(owner))
 		return -ENODEV;
+	PRINTK_HDMI("%s:%s, %d\r\n", __FILE__, __func__, __LINE__); 
 
 	WARN_CONSOLE_UNLOCKED();
 
@@ -3573,6 +3576,7 @@ static int do_register_con_driver(const struct consw *csw, int first, int last)
 	int i, retval = 0;
 
 	WARN_CONSOLE_UNLOCKED();
+	PRINTK_HDMI("%s:%s, %d\r\n", __FILE__, __func__, __LINE__); 
 
 	if (!try_module_get(owner))
 		return -ENODEV;
@@ -3588,7 +3592,7 @@ static int do_register_con_driver(const struct consw *csw, int first, int last)
 	if (retval)
 		goto err;
 
-	desc = csw->con_startup();
+	desc = csw->con_startup();				// add by starsoc fbcon_startup()
 
 	if (!desc)
 		goto err;

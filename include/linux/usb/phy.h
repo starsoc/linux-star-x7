@@ -167,7 +167,7 @@ static inline int
 usb_phy_init(struct usb_phy *x)
 {
 	if (x && x->init)
-		return x->init(x);
+		return x->init(x);	/* ulpi_init */
 
 	return 0;
 }

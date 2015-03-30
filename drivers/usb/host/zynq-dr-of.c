@@ -156,7 +156,7 @@ static int zynq_dr_of_probe(struct platform_device *ofdev)
 	int i, phy_init;
 	int ret;
     
-    printk(KERN_INFO"%s:%d\r\n", __func__, __LINE__);
+    printk(KERN_INFO"######%s:%d\r\n", __func__, __LINE__);
     
 	pdata = &data;
 	memset(pdata, 0, sizeof(data));
@@ -218,7 +218,7 @@ static int zynq_dr_of_probe(struct platform_device *ofdev)
 	}
 
 	pdata->clk = hdata->clk;
-
+	
 	/* If ULPI phy type, set it up */
 	if (pdata->phy_mode == ZYNQ_USB2_PHY_ULPI) {
 		pdata->ulpi = otg_ulpi_create(&ulpi_viewport_access_ops,

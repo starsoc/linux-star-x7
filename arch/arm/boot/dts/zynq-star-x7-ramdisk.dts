@@ -96,30 +96,3 @@
 &uart1 {
 	status = "okay";
 };
-
-
-&i2c0 {
-	status = "okay";
-//  bus-id = <0x0>;
-    clock-frequency = <400000>;
-    xlnx,has-interrupt = <0x1>;
-    
-    m24c02_eeprom@50 {
-				compatible = "at,24c02";
-				reg = <0x50>;
-		};
-    
-    pcf8563@51 {
-				compatible = "pcf8563";
-				reg = <0x51>;
-			};			
-    
-    sii9022@3b {
-        compatible = "sii9022";
-        reg = <0x3b>;
-        interrupt-parent = <&intc>;
-        interrupts = < 0 29 4 >;
-		mode_str = "1920x1080";
-		bits-per-pixel = <16>;
-    };
-};	

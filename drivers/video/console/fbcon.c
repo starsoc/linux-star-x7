@@ -928,6 +928,7 @@ static const char *fbcon_startup(void)
 	struct fb_info *info = NULL;
 	struct fbcon_ops *ops;
 	int rows, cols;
+	PRINTK_HDMI("%s:%s, %d\r\n", __FILE__, __func__, __LINE__); 
 
 	/*
 	 *  If num_registered_fb is zero, this is a call for the dummy part.
@@ -1035,6 +1036,7 @@ static void fbcon_init(struct vc_data *vc, int init)
 	    return;
 
 	cap = info->flags;
+	PRINTK_HDMI("%s:%s, %d\r\n", __FILE__, __func__, __LINE__); 
 
 	if (vc != svc || logo_shown == FBCON_LOGO_DONTSHOW ||
 	    (info->fix.type == FB_TYPE_TEXT))
@@ -1117,7 +1119,7 @@ static void fbcon_init(struct vc_data *vc, int init)
 	if (CON_IS_VISIBLE(vc) && vc->vc_mode == KD_TEXT) {
 		if (info->fbops->fb_set_par &&
 		    !(ops->flags & FBCON_FLAGS_INIT)) {
-			ret = info->fbops->fb_set_par(info);
+			ret = info->fbops->fb_set_par(info);			// add by starsoc drm_fb_helper_set_par()
 
 			if (ret)
 				printk(KERN_ERR "fbcon_init: detected "
@@ -3148,6 +3150,8 @@ static int fbcon_fb_registered(struct fb_info *info)
 
 	idx = info->node;
 	fbcon_select_primary(info);
+	
+	PRINTK_HDMI("%s:%s, %d\r\n", __FILE__, __func__, __LINE__); 
 
 	if (info_idx == -1) {
 		for (i = first_fb_vc; i <= last_fb_vc; i++) {
@@ -3265,6 +3269,8 @@ static int fbcon_event_notify(struct notifier_block *self,
 	if (fbcon_has_exited && !(action == FB_EVENT_FB_REGISTERED ||
 				  action == FB_EVENT_FB_UNREGISTERED))
 		goto done;
+	
+	PRINTK_HDMI("%s:%s, %d\r\n", __FILE__, __func__, __LINE__); 
 
 	switch(action) {
 	case FB_EVENT_SUSPEND:

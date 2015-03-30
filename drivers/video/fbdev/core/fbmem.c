@@ -1616,6 +1616,8 @@ static int do_register_framebuffer(struct fb_info *fb_info)
 
 	if (fb_check_foreignness(fb_info))
 		return -ENOSYS;
+	
+	PRINTK_HDMI("%s:%s, %d\r\n", __FILE__, __func__, __LINE__); 
 
 	ret = do_remove_conflicting_framebuffers(fb_info->apertures,
 						 fb_info->fix.id,

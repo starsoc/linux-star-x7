@@ -2441,10 +2441,11 @@ int drm_mode_set_config_internal(struct drm_mode_set *set)
 	 */
 	list_for_each_entry(tmp, &crtc->dev->mode_config.crtc_list, head)
 		tmp->old_fb = tmp->primary->fb;
+	PRINTK_HDMI("%s:%s, %d\r\n", __FILE__, __func__, __LINE__); 
 
 	fb = set->fb;
 
-	ret = crtc->funcs->set_config(set);
+	ret = crtc->funcs->set_config(set);			// add by starsoc  drm_crtc_helper_set_config()
 	if (ret == 0) {
 		crtc->primary->crtc = crtc;
 		crtc->primary->fb = fb;

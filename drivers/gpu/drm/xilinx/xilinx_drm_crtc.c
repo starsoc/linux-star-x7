@@ -57,6 +57,7 @@ static void xilinx_drm_crtc_dpms(struct drm_crtc *base_crtc, int dpms)
 	struct xilinx_drm_crtc *crtc = to_xilinx_crtc(base_crtc);
 
 	DRM_DEBUG_KMS("dpms: %d -> %d\n", crtc->dpms, dpms);
+	PRINTK_HDMI("%s:%s, %d\r\n", __FILE__, __func__, __LINE__); 
 
 	if (crtc->dpms == dpms)
 		return;

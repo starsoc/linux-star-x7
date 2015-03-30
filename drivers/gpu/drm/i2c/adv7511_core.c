@@ -546,6 +546,8 @@ EXPORT_SYMBOL_GPL(adv7511_get_edid);
 static void adv7511_encoder_dpms(struct drm_encoder *encoder, int mode)
 {
 	struct adv7511 *adv7511 = encoder_to_adv7511(encoder);
+	
+	PRINTK_HDMI("%s:%s, %d\r\n", __FILE__, __func__, __LINE__); 
 
 	switch (mode) {
 	case DRM_MODE_DPMS_ON:
