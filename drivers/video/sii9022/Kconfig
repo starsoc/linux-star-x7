@@ -1,9 +1,18 @@
 menuconfig SII902X
 	bool "sii902x HDMI driver support"
 	depends on FB
-	default y
+	default n
 	help
 	  Choose this option if you want to use the sii902x hdmi
+	  for video output.
+	  
+	  
+menuconfig SII9134
+	bool "sii9134 HDMI driver support"
+	depends on FB
+	default y
+	help
+	  Choose this option if you want to use the sii9134 hdmi
 	  for video output.
 	  
 config SII902X_EDID_READING
