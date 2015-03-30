@@ -290,6 +290,15 @@
 				bits-per-pixel = <16>;
 			};
 			
+			sii9134@39 {
+				compatible = "sii9134";
+				reg = <0x39>;
+				interrupt-parent = <&ps7_scugic_0>;
+				interrupts = < 0 29 4 >;
+				mode_str = "1920x1080";
+				bits-per-pixel = <16>;
+			};
+			
 			m24c02_eeprom@50 {
 				compatible = "at,24c02";
 				reg = <0x50>;
