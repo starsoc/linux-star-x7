@@ -52,6 +52,8 @@ static int analog_drm_load(struct drm_device *dev, unsigned long flags)
 	struct of_phandle_args dma_spec;
 	struct device_node *of_node;
 	int ret;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	ret = of_parse_phandle_with_args(analog_drm_pdev->dev.of_node, "dma-request",
 			"#dma-cells", 0, &dma_spec);
@@ -160,6 +162,7 @@ static struct drm_driver analog_drm_driver = {
 
 static void drm_register_work(struct work_struct *work)
 {
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 	drm_platform_init(&analog_drm_driver, analog_drm_pdev);
 }
 
@@ -212,6 +215,10 @@ static struct notifier_block i2cdev_notifier = {
 static int analog_drm_platform_probe(struct platform_device *pdev)
 {
 	analog_drm_pdev = pdev;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
+
+    
 	bus_register_notifier(&i2c_bus_type, &i2cdev_notifier);
 	i2c_for_each_dev(NULL, analog_drm_attach_i2c_adapter);
 

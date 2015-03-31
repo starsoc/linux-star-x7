@@ -389,6 +389,8 @@ int drm_fb_helper_init(struct drm_device *dev,
 	int i;
 
 	fb_helper->dev = dev;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	INIT_LIST_HEAD(&fb_helper->kernel_fb_list);
 
@@ -649,6 +651,8 @@ int drm_fb_helper_set_par(struct fb_info *info)
 	struct drm_crtc *crtc;
 	int ret;
 	int i;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	if (var->pixclock != 0) {
 		DRM_ERROR("PIXEL CLOCK SET\n");
@@ -716,6 +720,8 @@ int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
 	struct fb_info *info;
 	struct drm_fb_helper_surface_size sizes;
 	int gamma_size = 0;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	memset(&sizes, 0, sizeof(struct drm_fb_helper_surface_size));
 	sizes.surface_depth = 24;
@@ -788,7 +794,7 @@ int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
 	}
 
 	/* push down into drivers */
-	new_fb = (*fb_helper->funcs->fb_probe)(fb_helper, &sizes);
+	new_fb = (*fb_helper->funcs->fb_probe)(fb_helper, &sizes);      // drm_fbdev_cma_probe
 	if (new_fb < 0)
 		return new_fb;
 
@@ -1314,6 +1320,8 @@ bool drm_fb_helper_initial_config(struct drm_fb_helper *fb_helper, int bpp_sel)
 {
 	struct drm_device *dev = fb_helper->dev;
 	int count = 0;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	/* disable all the possible outputs/crtcs before entering KMS mode */
 	drm_helper_disable_unused_functions(fb_helper->dev);

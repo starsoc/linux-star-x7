@@ -28,6 +28,7 @@ static int analog_drm_crtc_update(struct drm_crtc *crtc)
 	struct dma_async_tx_descriptor *desc;
 	struct drm_gem_cma_object *obj;
 	size_t offset;
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	if (!mode || !fb)
 		return -EINVAL;
@@ -67,6 +68,7 @@ static int analog_drm_crtc_update(struct drm_crtc *crtc)
 static void analog_drm_crtc_dpms(struct drm_crtc *crtc, int mode)
 {
 	struct analog_drm_crtc *analog_crtc = to_analog_crtc(crtc);
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	if (analog_crtc->mode != mode) {
 		analog_crtc->mode = mode;

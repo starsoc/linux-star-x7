@@ -1006,6 +1006,8 @@ static struct dma_async_tx_descriptor *xilinx_vdma_prep_slave_sg(
 	struct scatterlist *sg;
 	unsigned int i, j;
 	dma_addr_t dma_src;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	if (!dchan)
 		return NULL;
@@ -1022,7 +1024,7 @@ static struct dma_async_tx_descriptor *xilinx_vdma_prep_slave_sg(
 
 		return NULL;
 	}
-
+    
 	t = xilinx_dma_alloc_transfer(chan, sg_len);
 	if (!t)
 		return NULL;
@@ -1033,7 +1035,7 @@ static struct dma_async_tx_descriptor *xilinx_vdma_prep_slave_sg(
 		     chan->config.frm_dly << XILINX_VDMA_FRMDLY_SHIFT |
 		     chan->config.stride);
 	}
-
+    
 	for (j = 0; j < chan->num_frms / sg_len; ++j) {
 		/* Build transactions using information in the scatter gather list
 		 */
@@ -1510,7 +1512,7 @@ static int __devinit xilinx_dma_of_probe(struct platform_device *pdev)
 		xdev->common.device_control = xilinx_vdma_device_control;
 		xdev->common.device_issue_pending = xilinx_dma_issue_pending;
 	}
-
+    
 	xdev->common.device_alloc_chan_resources =
 				xilinx_dma_alloc_chan_resources;
 	xdev->common.device_free_chan_resources =

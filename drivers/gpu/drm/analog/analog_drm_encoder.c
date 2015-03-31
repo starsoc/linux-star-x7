@@ -142,6 +142,7 @@ static void analog_drm_encoder_dpms(struct drm_encoder *encoder, int mode)
 	struct analog_drm_private *private = encoder->dev->dev_private;
 	struct drm_encoder_slave_funcs *sfuncs = get_slave_funcs(encoder);
 	struct adv7511_video_input_config config = adv7511_config_zc702;
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	switch (mode) {
 	case DRM_MODE_DPMS_ON:
@@ -454,6 +455,8 @@ static void analog_drm_encoder_mode_set(struct drm_encoder *encoder,
 
 static void analog_drm_encoder_commit(struct drm_encoder *encoder)
 {
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
+
 	analog_drm_encoder_dpms(encoder, DRM_MODE_DPMS_ON);
 }
 

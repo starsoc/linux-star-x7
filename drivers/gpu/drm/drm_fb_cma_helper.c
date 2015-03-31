@@ -268,6 +268,8 @@ static int drm_fbdev_cma_probe(struct drm_fb_helper *helper,
 	struct drm_fb_helper_surface_size *sizes)
 {
 	int ret = 0;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	if (!helper->fb) {
 		ret = drm_fbdev_cma_create(helper, sizes);
@@ -299,6 +301,8 @@ struct drm_fbdev_cma *drm_fbdev_cma_init(struct drm_device *dev,
 	struct drm_fbdev_cma *fbdev_cma;
 	struct drm_fb_helper *helper;
 	int ret;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	fbdev_cma = kzalloc(sizeof(*fbdev_cma), GFP_KERNEL);
 	if (!fbdev_cma) {

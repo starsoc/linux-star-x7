@@ -1602,6 +1602,8 @@ static int do_register_framebuffer(struct fb_info *fb_info)
 
 	if (fb_check_foreignness(fb_info))
 		return -ENOSYS;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	do_remove_conflicting_framebuffers(fb_info->apertures, fb_info->fix.id,
 					 fb_is_primary_device(fb_info));
@@ -1732,6 +1734,8 @@ int
 register_framebuffer(struct fb_info *fb_info)
 {
 	int ret;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	mutex_lock(&registration_lock);
 	ret = do_register_framebuffer(fb_info);

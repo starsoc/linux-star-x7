@@ -747,6 +747,8 @@ int vc_cons_allocated(unsigned int i)
 
 static void visual_init(struct vc_data *vc, int num, int init)
 {
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
+
 	/* ++Geert: vc->vc_sw->con_init determines console size */
 	if (vc->vc_sw)
 		module_put(vc->vc_sw->owner);
@@ -3042,6 +3044,8 @@ static int bind_con_driver(const struct consw *csw, int first, int last,
 	const char *desc = NULL;
 	struct con_driver *con_driver;
 	int i, j = -1, k = -1, retval = -ENODEV;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	if (!try_module_get(owner))
 		return -ENODEV;
@@ -3663,6 +3667,7 @@ EXPORT_SYMBOL(unregister_con_driver);
 int take_over_console(const struct consw *csw, int first, int last, int deflt)
 {
 	int err;
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	err = register_con_driver(csw, first, last);
 	/* if we get an busy error we still want to bind the console driver

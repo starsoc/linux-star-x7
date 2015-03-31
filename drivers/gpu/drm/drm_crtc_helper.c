@@ -352,6 +352,8 @@ bool drm_crtc_helper_set_mode(struct drm_crtc *crtc,
 	int saved_x, saved_y;
 	struct drm_encoder *encoder;
 	bool ret = true;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	crtc->enabled = drm_helper_crtc_in_use(crtc);
 	if (!crtc->enabled)
@@ -519,6 +521,8 @@ int drm_crtc_helper_set_config(struct drm_mode_set *set)
 	struct drm_mode_set save_set;
 	int ret;
 	int i;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	DRM_DEBUG_KMS("\n");
 
