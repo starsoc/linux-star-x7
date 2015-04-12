@@ -248,8 +248,7 @@ static int sii9134_probe(struct i2c_client *client,
     
 	memset(&sii9134, 0, sizeof(sii9134));
     
-    
-	sii9134.client = client;
+   	sii9134.client = client;
 	printk(KERN_INFO "%s, addr:0x%x\n", __func__, sii9134.client->addr);
     
     i2c_smbus_write_byte_data(sii9134.client, 0x05, 0x01);  //soft reset    

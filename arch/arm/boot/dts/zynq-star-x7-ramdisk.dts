@@ -280,7 +280,7 @@
 			
 			#address-cells = <1>;
 			#size-cells = <0>;
-			
+			/*
 			sii902x@3b {
 				compatible = "sii902x";
 				reg = <0x3b>;
@@ -288,7 +288,7 @@
 				interrupts = < 0 29 4 >;
 				mode_str = "1920x1080";
 				bits-per-pixel = <16>;
-			};
+			};*/
 			
 			sii9134@39 {
 				compatible = "sii9134";
