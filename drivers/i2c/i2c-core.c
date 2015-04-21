@@ -1395,12 +1395,15 @@ int i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
 
 	if (adap->algo->master_xfer) {
 #ifdef DEBUG
+// delete by starsoc
+#if 0
 		for (ret = 0; ret < num; ret++) {
 			dev_dbg(&adap->dev, "master_xfer[%d] %c, addr=0x%02x, "
 				"len=%d%s\n", ret, (msgs[ret].flags & I2C_M_RD)
 				? 'R' : 'W', msgs[ret].addr, msgs[ret].len,
 				(msgs[ret].flags & I2C_M_RECV_LEN) ? "+" : "");
 		}
+#endif
 #endif
 
 		if (in_atomic() || irqs_disabled()) {

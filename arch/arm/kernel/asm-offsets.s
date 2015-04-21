@@ -12,9 +12,9 @@
 	.file	"asm-offsets.c"
 @ GNU C (Sourcery CodeBench Lite 2011.09-50) version 4.6.1 (arm-xilinx-linux-gnueabi)
 @	compiled by GNU C version 4.3.2, GMP version 4.3.2, MPFR version 3.0.1-p4, MPC version 0.9
-@ GGC heuristics: --param ggc-min-expand=98 --param ggc-min-heapsize=127348
+@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
 @ options passed:  -nostdinc
-@ -I /home/alex/share/github/linux-star-x7-3.6/linux-star-x7/arch/arm/include
+@ -I /home/alex/share/github/linux-3.6-star-x7/linux-star-x7/arch/arm/include
 @ -I arch/arm/include/generated -I include -I arch/arm/mach-zynq/include
 @ -iprefix /home/alex/CodeSourcery/Sourcery_CodeBench_Lite_for_Xilinx_GNU_Linux/bin/../lib/gcc/arm-xilinx-linux-gnueabi/4.6.1/
 @ -isysroot /home/alex/CodeSourcery/Sourcery_CodeBench_Lite_for_Xilinx_GNU_Linux/bin/../arm-xilinx-linux-gnueabi/libc
@@ -23,7 +23,7 @@
 @ -D KBUILD_MODNAME=KBUILD_STR(asm_offsets) -D __CS_SOURCERYGXX_MAJ__=2011
 @ -D __CS_SOURCERYGXX_MIN__=9 -D __CS_SOURCERYGXX_REV__=50
 @ -isystem /home/alex/CodeSourcery/Sourcery_CodeBench_Lite_for_Xilinx_GNU_Linux/bin/../lib/gcc/arm-xilinx-linux-gnueabi/4.6.1/include
-@ -include /home/alex/share/github/linux-star-x7-3.6/linux-star-x7/include/linux/kconfig.h
+@ -include /home/alex/share/github/linux-3.6-star-x7/linux-star-x7/include/linux/kconfig.h
 @ -MD arch/arm/kernel/.asm-offsets.s.d arch/arm/kernel/asm-offsets.c
 @ -mlittle-endian -marm -mabi=aapcs-linux -mno-thumb-interwork
 @ -march=armv7-a -msoft-float -mfpu=neon-fp16 -mtls-dialect=gnu

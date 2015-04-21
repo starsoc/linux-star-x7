@@ -287,17 +287,16 @@ static void xiic_fill_tx_fifo(struct xiic_i2c *i2c)
 	int len = xiic_tx_space(i2c);
 
 	len = (len > fifo_space) ? fifo_space : len;
-
-	dev_dbg(i2c->adap.dev.parent, "%s entry, len: %d, fifo space: %d\n",
-		__func__, len, fifo_space);
+    // delete by starsoc
+	//dev_dbg(i2c->adap.dev.parent, "%s entry, len: %d, fifo space: %d\n", __func__, len, fifo_space);
 
 	while (len--) {
 		u16 data = i2c->tx_msg->buf[i2c->tx_pos++];
 		if ((xiic_tx_space(i2c) == 0) && (i2c->nmsgs == 1)) {
 			/* last message in transfer -> STOP */
 			data |= XIIC_TX_DYN_STOP_MASK;
-			dev_dbg(i2c->adap.dev.parent, "%s TX STOP\n", __func__);
-
+			// dev_dbg(i2c->adap.dev.parent, "%s TX STOP\n", __func__);
+            
 			xiic_setreg(i2c, XIIC_DTR_REG_OFFSET, data);
 		} else
 			xiic_setreg(i2c, XIIC_DTR_REG_OFFSET, data);
@@ -526,12 +525,13 @@ static void xiic_start_send(struct xiic_i2c *i2c)
 	struct i2c_msg *msg = i2c->tx_msg;
 
 	xiic_irq_clr(i2c, XIIC_INTR_TX_ERROR_MASK);
-
+    // delete by starsoc
+#if 0
 	dev_dbg(i2c->adap.dev.parent, "%s entry, msg: %p, len: %d, "
 		"ISR: 0x%x, CR: 0x%x\n",
 		__func__, msg, msg->len, xiic_getreg(i2c, XIIC_IISR_OFFSET),
 		xiic_getreg(i2c, XIIC_CR_REG_OFFSET));
-
+#endif
 	if (!(msg->flags & I2C_M_NOSTART)) {
 		/* write the address */
 		u16 data = ((msg->addr << 1) & 0xfe) | XIIC_WRITE_OPERATION |
@@ -572,12 +572,13 @@ static void __xiic_start_xfer(struct xiic_i2c *i2c)
 {
 	int first = 1;
 	int fifo_space = xiic_tx_fifo_space(i2c);
-	dev_dbg(i2c->adap.dev.parent, "%s entry, msg: %p, fifos space: %d\n",
-		__func__, i2c->tx_msg, fifo_space);
-
+    
+    // delete by starsoc
+	//dev_dbg(i2c->adap.dev.parent, "%s entry, msg: %p, fifos space: %d\n", __func__, i2c->tx_msg, fifo_space);
+    
 	if (!i2c->tx_msg)
 		return;
-
+    
 	i2c->rx_pos = 0;
 	i2c->tx_pos = 0;
 	i2c->state = STATE_START;
@@ -630,9 +631,8 @@ static int xiic_xfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
 {
 	struct xiic_i2c *i2c = i2c_get_adapdata(adap);
 	int err;
-
-	dev_dbg(adap->dev.parent, "%s entry SR: 0x%x\n", __func__,
-		xiic_getreg(i2c, XIIC_SR_REG_OFFSET));
+    // delete by starsoc
+	// dev_dbg(adap->dev.parent, "%s entry SR: 0x%x\n", __func__, xiic_getreg(i2c, XIIC_SR_REG_OFFSET));
 
 	err = xiic_busy(i2c);
 	if (err)
