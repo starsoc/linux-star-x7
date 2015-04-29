@@ -365,7 +365,8 @@ static void do_update_region(struct vc_data *vc, unsigned long start, int count)
 			if (attrib != (scr_readw(p) & 0xff00)) {
 				if (p > q)
 				{
-				    printk("%s %d\n",__func__, __LINE__);
+				    // delete by starsoc
+				    //printk("%s %d\n",__func__, __LINE__);
 					vc->vc_sw->con_putcs(vc, q, p-q, yy, startx);
 				}
 				startx = xx;

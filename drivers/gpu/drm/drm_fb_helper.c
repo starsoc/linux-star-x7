@@ -1242,6 +1242,8 @@ static void drm_setup_crtcs(struct drm_fb_helper *fb_helper)
 	bool *enabled;
 	int width, height;
 	int i, ret;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	DRM_DEBUG_KMS("\n");
 

@@ -1268,9 +1268,7 @@ static void fbcon_putcs(struct vc_data *vc, const unsigned short *s,
 	struct fb_info *info = registered_fb[con2fb_map[vc->vc_num]];
 	struct display *p = &fb_display[vc->vc_num];
 	struct fbcon_ops *ops = info->fbcon_par;
-	
-    printk("%s enter\n",__func__);
-	
+		
 	if (!fbcon_is_inactive(vc, info))
 		ops->putcs(vc, info, s, count, real_y(p, ypos), xpos,
 			   get_color(vc, info, scr_readw(s), 1),

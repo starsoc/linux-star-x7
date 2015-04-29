@@ -821,6 +821,8 @@ void drm_helper_connector_dpms(struct drm_connector *connector, int mode)
 
 	old_dpms = connector->dpms;
 	connector->dpms = mode;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	/* from off to on, do crtc then encoder */
 	if (mode < old_dpms) {
@@ -884,6 +886,8 @@ int drm_helper_resume_force_mode(struct drm_device *dev)
 	struct drm_encoder_helper_funcs *encoder_funcs;
 	struct drm_crtc_helper_funcs *crtc_funcs;
 	int ret;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
 
