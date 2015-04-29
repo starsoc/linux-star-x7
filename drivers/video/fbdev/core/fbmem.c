@@ -596,6 +596,8 @@ int fb_prepare_logo(struct fb_info *info, int rotate)
 {
 	int depth = fb_get_color_depth(&info->var, &info->fix);
 	unsigned int yres;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	memset(&fb_logo, 0, sizeof(struct logo_data));
 
@@ -1613,6 +1615,8 @@ static int do_register_framebuffer(struct fb_info *fb_info)
 	int i, ret;
 	struct fb_event event;
 	struct fb_videomode mode;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	if (fb_check_foreignness(fb_info))
 		return -ENOSYS;
@@ -1772,7 +1776,9 @@ int
 register_framebuffer(struct fb_info *fb_info)
 {
 	int ret;
-
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
+    
 	mutex_lock(&registration_lock);
 	ret = do_register_framebuffer(fb_info);
 	mutex_unlock(&registration_lock);

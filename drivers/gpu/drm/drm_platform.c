@@ -100,6 +100,8 @@ EXPORT_SYMBOL(drm_platform_set_busid);
 int drm_platform_init(struct drm_driver *driver, struct platform_device *platform_device)
 {
 	DRM_DEBUG("\n");
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	return drm_get_platform_dev(platform_device, driver);
 }

@@ -254,6 +254,8 @@ bool drm_crtc_helper_set_mode(struct drm_crtc *crtc,
 	bool saved_enabled;
 	struct drm_encoder *encoder;
 	bool ret = true;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	drm_warn_on_modeset_not_all_locked(dev);
 
@@ -356,8 +358,8 @@ bool drm_crtc_helper_set_mode(struct drm_crtc *crtc,
 	}
 
 	/* Now enable the clocks, plane, pipe, and connectors that we set up. */
-	crtc_funcs->commit(crtc);
-
+	crtc_funcs->commit(crtc);                                        // add by starsoc  xilinx_drm_encoder_commit()
+    
 	list_for_each_entry(encoder, &dev->mode_config.encoder_list, head) {
 
 		if (encoder->crtc != crtc)
@@ -453,6 +455,8 @@ int drm_crtc_helper_set_config(struct drm_mode_set *set)
 	struct drm_mode_set save_set;
 	int ret;
 	int i;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	DRM_DEBUG_KMS("\n");
 

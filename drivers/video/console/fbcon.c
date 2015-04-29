@@ -531,6 +531,8 @@ static int search_for_mapped_con(void)
 static int do_fbcon_takeover(int show_logo)
 {
 	int err, i;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	if (!num_registered_fb)
 		return -ENODEV;
@@ -570,6 +572,8 @@ static void fbcon_prepare_logo(struct vc_data *vc, struct fb_info *info,
 	int cnt, erase = vc->vc_video_erase_char, step;
 	unsigned short *save = NULL, *r, *q;
 	int logo_height;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	if (info->flags & FBINFO_MODULE) {
 		logo_shown = FBCON_LOGO_DONTSHOW;
@@ -1029,6 +1033,8 @@ static void fbcon_init(struct vc_data *vc, int init)
 	struct display *t, *p = &fb_display[vc->vc_num];
 	int logo = 1, new_rows, new_cols, rows, cols, charcnt = 256;
 	int cap, ret;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	if (info_idx == -1 || info == NULL)
 	    return;
@@ -1116,7 +1122,7 @@ static void fbcon_init(struct vc_data *vc, int init)
 	if (CON_IS_VISIBLE(vc) && vc->vc_mode == KD_TEXT) {
 		if (info->fbops->fb_set_par &&
 		    !(ops->flags & FBCON_FLAGS_INIT)) {
-			ret = info->fbops->fb_set_par(info);
+			ret = info->fbops->fb_set_par(info);            // add by starsoc drm_fb_helper_set_par()
 
 			if (ret)
 				printk(KERN_ERR "fbcon_init: detected "
@@ -3144,6 +3150,8 @@ static inline void fbcon_select_primary(struct fb_info *info)
 static int fbcon_fb_registered(struct fb_info *info)
 {
 	int ret = 0, i, idx;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	idx = info->node;
 	fbcon_select_primary(info);

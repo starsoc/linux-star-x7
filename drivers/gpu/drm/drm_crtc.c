@@ -2461,6 +2461,8 @@ int drm_mode_set_config_internal(struct drm_mode_set *set)
 	struct drm_framebuffer *fb;
 	struct drm_crtc *tmp;
 	int ret;
+    
+    PRINTK_HDMI("######%s:%s, %d\r\n", __FILE__, __func__, __LINE__);
 
 	/*
 	 * NOTE: ->set_config can also disable other crtcs (if we steal all
@@ -2472,7 +2474,7 @@ int drm_mode_set_config_internal(struct drm_mode_set *set)
 
 	fb = set->fb;
 
-	ret = crtc->funcs->set_config(set);
+	ret = crtc->funcs->set_config(set);     // add by starsoc drm_crtc_helper_set_config()
 	if (ret == 0) {
 		crtc->primary->crtc = crtc;
 		crtc->primary->fb = fb;
